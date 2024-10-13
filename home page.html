@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Management Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Google Fonts -->
+    <style type="text/css">
+        #Layer1 {
+            position: absolute;
+            width: 200px;
+            height: 115px;
+            z-index: 1;
+            left: 472px;
+            top: 12px;
+        }
+        body {
+            background-image: url(asset/images/banner-bg.png);
+            background-color: #FFFFFF;
+            margin-right: 90px;
+            background-position: right top;
+            background-repeat: no-repeat;
+            font-family: 'Roboto', sans-serif; /* Apply the custom font to the body */
+        }
+        /* Customize the "Sign Up" button (btn-primary) */
+        .btn-primary {
+            background-color: #ff5722; /* Custom color for Sign Up */
+            border-color: #ff5722;     /* Border color for Sign Up */
+            color: white;              /* Text color */
+        }
+
+        .btn-primary:hover {
+            background-color: #e64a19; /* Hover color for Sign Up */
+            border-color: #e64a19;     /* Hover border color */
+            color: white;              /* Text color on hover */
+        }
+
+        /* Customize the "Login" button (btn-secondary) */
+        .btn-secondary {
+            background-color: #4caf50; /* Custom color for Login */
+            border-color: #4caf50;     /* Border color for Login */
+            color: white;              /* Text color */
+        }
+
+        .btn-secondary:hover {
+            background-color: #388e3c; /* Hover color for Login */
+            border-color: #388e3c;     /* Hover border color */
+            color: white;              /* Text color on hover */
+        }
+
+        /* Optional: Add transition for smooth hover effect */
+        .btn-primary, .btn-secondary {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Change nav link color to gray */
+        .nav-link {
+            color: gray; /* Default color for the links */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s ease; /* Smooth transition effect */
+        }
+
+        .nav-link:hover {
+            color: orange; /* Color changes to orange on hover */
+        }
+
+        /* Styles for h1 */
+        h1 {
+            font-weight: bold;  /* Make font bold */
+            font-size: 46px;    /* Set a larger font size */
+            color: #333;        /* Set a color for the text */
+            text-align: left; /* Center align the text */
+            margin-top: 40px;   /* Add some top margin */
+            font-family: 'Montserrat', sans-serif; /* Apply the custom font */
+        }
+
+        em {
+            font-style: italic; /* Keep the emphasis italic */
+            color: #ff5722;    /* Optional: change color of "Management" */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#" style="font-size:30px">Volunteer Management</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about-us">About Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1><br>Welcome to the Volunteer<br>
+        <em>Management</em> <br>
+        Platform<br></h1>
+        <p>Join events and make an impact!</p>
+        <a href="file:///C:/Users/samuel/Desktop/web%20project/register" class="btn btn-primary">Sign Up</a>
+        <a href="/login" class="btn btn-secondary">Login</a>
+    </div>
+</body>
+</html>

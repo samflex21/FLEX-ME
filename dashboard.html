@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Body background styling */
+        body {
+            background-color: #ffffff; /* White background */
+            font-family: 'Arial', sans-serif; /* Changed font to Arial */
+            background-image: url(asset/images/banner-bg.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.7); /* Transparent glass effect */
+            backdrop-filter: blur(15px); /* Blurred background effect */
+            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Shadow effect */
+            padding: 15px 30px;
+            border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+        }
+
+        /* Profile image in navbar */
+        .navbar-profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 15px;
+        }
+
+        /* Dashboard card styles */
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            border-radius: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Transparent glass effect */
+        }
+
+        .card h5 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .card p {
+            font-size: 16px;
+        }
+
+        /* Recent Activities */
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.9); /* Transparent glass effect */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        /* Add some spacing around the dashboard */
+        .container {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Volunteer Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create-event">Create Event</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about-us">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact Us</a>
+                </li>
+            </ul>
+            <!-- Profile Picture in Navbar -->
+            <img src="path_to_uploaded_image" alt="Profile" class="navbar-profile-img" id="navbarProfileImg">
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="container">
+        <h2 class="mt-4">Dashboard</h2>
+
+        <!-- Dashboard Metrics Cards -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Events</h5>
+                        <p class="card-text">10</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Volunteers</h5>
+                        <p class="card-text">250</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Upcoming Events</h5>
+                        <p class="card-text">3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activities Section -->
+        <h3 class="mt-4">Recent Activities</h3>
+        <ul class="list-group">
+            <li class="list-group-item">Volunteer John Doe signed up for Event 1.</li>
+            <li class="list-group-item">Event 2 was created by Admin.</li>
+            <li class="list-group-item">Event 3 has 5 new volunteers.</li>
+        </ul>
+
+        <!-- User Actions -->
+        <h3 class="mt-4">User Actions</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Create New Event</h5>
+                        <a href="/create-event" class="btn btn-primary">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Volunteers</h5>
+                        <a href="/volunteers" class="btn btn-primary">Manage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Event Reports</h5>
+                        <a href="/reports" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Handle profile image preview in navbar after selection
+        document.getElementById('profilePhoto').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const imgElement = document.getElementById('navbarProfileImg');
+                imgElement.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

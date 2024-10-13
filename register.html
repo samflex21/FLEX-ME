@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url(asset/images/left-bg-decor.png);
+            background-repeat: no-repeat;
+            background-color: #ffffff; /* Ensure a white background */
+            font-family: 'Arial', sans-serif; /* Changed font to Arial */
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+
+        .short-input {
+            width: 250px; /* Adjust the width for shorter input fields */
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.7); /* Transparent glass effect */
+            backdrop-filter: blur(15px); /* Blurred background effect */
+            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Shadow effect */
+            padding: 15px 30px;
+            border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+            transition: background 0.3s ease; /* Transition effect for background */
+            z-index: 10; /* Ensure navbar is above other elements */
+        }
+
+        /* Navbar brand (logo) */
+        .navbar-brand {
+            font-size: 30px;
+            font-weight: bold;
+            color: #ff5722; /* Primary color */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Navbar link styles */
+        .nav-link {
+            color: gray; /* Default color for links */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s ease; /* Smooth transition effect */
+        }
+
+        .nav-link:hover {
+            color: orange; /* Color changes to orange on hover */
+        }
+
+        /* Active link styling */
+        .nav-link.active {
+            color: #ff5722; /* Primary color for active link */
+        }
+
+        /* Registration form glassmorphism effect */
+        .register-container {
+            margin: 100px auto; /* Increased margin to prevent overlap */
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8); /* Transparent glass effect */
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            backdrop-filter: blur(15px); /* Blurred background effect */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 600px; /* Width of the registration box */
+            position: relative; /* Changed to relative positioning */
+            top: 0; /* Reset vertical position */
+        }
+
+        /* Form label styling */
+        .form-label {
+            color: #333;
+        }
+
+        /* Siri-inspired button styling */
+        .siri-animated-btn {
+            position: relative;
+            background: linear-gradient(135deg, #ff5722, #ffcc33);
+            color: white;
+            border: none;
+            border-radius: 25px; /* Smaller radius for a smaller button */
+            padding: 10px 20px; /* Reduced padding */
+            font-size: 16px; /* Smaller font size */
+            text-transform: uppercase;
+            letter-spacing: 1px; /* Reduced letter-spacing */
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+            width: auto; /* Change to auto to fit content */
+        }
+
+        .siri-animated-btn:hover {
+            transform: scale(1.03); /* Slightly smaller scale for hover */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Waves for the ripple effect */
+        .siri-animated-btn .wave {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            animation: pulse 1.2s ease-out infinite;
+        }
+
+        /* Pulse effect for the waves */
+        @keyframes pulse {
+            0% {
+                transform: scale(0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Adding a flare/glow when button is clicked */
+        .siri-animated-btn:active {
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+            box-shadow: 0 10px 50px rgba(255, 87, 34, 0.7), inset 0 5px 20px rgba(255, 87, 34, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Volunteer Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about-us">About Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container register-container">
+        <h2>Register as a Volunteer</h2>
+        <form id="registerForm" action="/register" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control short-input" id="firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control short-input" id="lastName" name="lastName" required>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control short-input" id="username" name="username" required>
+                <div id="usernameError" class="error"></div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control short-input" id="email" name="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control short-input" id="password" name="password" required>
+                <div id="passwordError" class="error"></div>
+                <div class="password-strength" id="passwordStrength"></div>
+                <small>Password must be at least 8 characters long, contain one uppercase letter, and one special character.</small>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control short-input" id="confirmPassword" name="confirmPassword" required>
+                <div id="confirmPasswordError" class="error"></div>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <select class="form-control short-input" id="country" name="country" required>
+                    <option value="">Select Country</option>
+                    <!-- Add countries dynamically -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <div>
+                    <input type="radio" name="gender" id="male" value="male" required> 
+                    <label for="male">Male</label>
+                    <input type="radio" name="gender" id="female" value="female"> 
+                    <label for="female">Female</label>
+                    <input type="radio" name="gender" id="other" value="other"> 
+                    <label for="other">Other</label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="profilePic" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control short-input" id="profilePic" name="profilePic">
+            </div>
+            <button type="submit" class="siri-animated-btn">Register</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>

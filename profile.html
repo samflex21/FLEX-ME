@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Body background styling */
+        body {
+            background-color: #ffffff; /* White background */
+            font-family: 'Arial', sans-serif; /* Changed font to Arial */
+            background-image: url(asset/images/banner-bg.png);
+            background-repeat: no-repeat;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.7); /* Transparent glass effect */
+            backdrop-filter: blur(15px); /* Blurred background effect */
+            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Shadow effect */
+            padding: 15px 30px;
+            border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+        }
+
+        /* Profile image in navbar */
+        .navbar-profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 15px;
+        }
+
+        /* Form container glassmorphism */
+        .profile-container {
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8); /* Transparent glass effect */
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            backdrop-filter: blur(15px); /* Blurred background effect */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Form label styling */
+        .form-label {
+            color: #333;
+        }
+
+        /* Button styles */
+        .btn-siri {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            background-color: #ff5722;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-siri::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            z-index: 0;
+        }
+
+        .btn-siri:hover {
+            background-color: #ff4d00;
+        }
+
+        .btn-siri:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .btn-siri span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Error notification styles */
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Volunteer Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/events">Events</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/about-us">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contact Us</a>
+                </li>
+            </ul>
+            <!-- Profile Picture in Navbar -->
+            <img src="path_to_uploaded_image" alt="Profile" class="navbar-profile-img" id="navbarProfileImg">
+        </div>
+    </nav>
+
+    <!-- Profile Edit Form -->
+    <div class="container profile-container">
+        <h2 class="text-center">Edit Profile</h2>
+        <form action="/profile/update" method="POST" id="profileForm">
+            <!-- Profile Photo -->
+            <div class="mb-3">
+                <label for="profilePhoto" class="form-label">Profile Photo</label>
+                <input type="file" class="form-control" id="profilePhoto" name="profilePhoto" accept="image/*">
+            </div>
+
+            <!-- First Name -->
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" value="John" required>
+            </div>
+
+            <!-- Last Name -->
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="Doe" required>
+            </div>
+            
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" value="johndoe123" required>
+                <div class="error-message" id="usernameError">Username already taken!</div>
+            </div>
+
+            <!-- Country -->
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" class="form-control" id="country" name="country" value="United States" required>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="male" selected>Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="johndoe@example.com" required>
+                <div class="error-message" id="emailError">Email already in use!</div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" name="phone" value="+123456789" required>
+            </div>
+            
+            <!-- Address -->
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="123 Main St, Springfield" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <!-- Save Button -->
+            <button type="submit" class="btn btn-siri"><span>Save Changes</span></button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Fake existing users for validation example
+        const existingUsers = ['johndoe123', 'janedoe456'];
+        const existingEmails = ['johndoe@example.com', 'janedoe@example.com'];
+
+        document.getElementById('username').addEventListener('input', function() {
+            const username = this.value;
+            const usernameError = document.getElementById('usernameError');
+            if (existingUsers.includes(username)) {
+                usernameError.style.display = 'block';
+            } else {
+                usernameError.style.display = 'none';
+            }
+        });
+
+        document.getElementById('email').addEventListener('input', function() {
+            const email = this.value;
+            const emailError = document.getElementById('emailError');
+            if (existingEmails.includes(email)) {
+                emailError.style.display = 'block';
+            } else {
+                emailError.style.display = 'none';
+            }
+        });
+
+        // Handle profile image preview in navbar after selection
+        document.getElementById('profilePhoto').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const imgElement = document.getElementById('navbarProfileImg');
+                imgElement.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

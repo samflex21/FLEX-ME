@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+	background-color: #ffffff;
+	font-family: 'Arial', sans-serif;
+	background-image: url(asset/images/banner-bg.png);
+	background-repeat: no-repeat;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5);
+            padding: 15px 30px;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .profile-summary {
+            text-align: right;
+        }
+
+        .profile-picture {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">Volunteer Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about-us">About Us</a>
+                </li>
+            </ul>
+            <!-- Profile summary in navbar -->
+            <div class="profile-summary">
+                <img src="profile-picture.jpg" alt="Profile Picture" class="profile-picture">
+                <span>John Doe</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Volunteer Dashboard</h2>
+
+        <!-- Upcoming Events Section -->
+        <h3>Upcoming Events</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Community Cleanup</h5>
+                        <p class="card-text">Date: October 15, 2024</p>
+                        <p class="card-text">Location: Central Park</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Charity Run</h5>
+                        <p class="card-text">Date: October 22, 2024</p>
+                        <p class="card-text">Location: Riverside Avenue</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volunteer Hours -->
+        <h3 class="mt-4">Your Volunteer Hours</h3>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Hours: 25</h5>
+                <p class="card-text">Last Volunteered: October 10, 2024</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <h3 class="mt-4">Recent Activity</h3>
+        <ul class="list-group">
+            <li class="list-group-item">You signed up for "Community Cleanup" on October 15, 2024.</li>
+            <li class="list-group-item">You completed 5 hours at "Park Restoration" on October 5, 2024.</li>
+        </ul>
+
+        <!-- Profile Overview -->
+        <h3 class="mt-4">Profile Overview</h3>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">John Doe</h5>
+                <p class="card-text">Email: john.doe@example.com</p>
+                <p class="card-text">Location: New York, USA</p>
+                <a href="/profile" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
