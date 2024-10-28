@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModulHub - Connecting Modul University Students</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-image: url(file:///C|/Users/samuel/Desktop/group project/Volunteer-Management-pro/asset/images/177801_MUSmartHub.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(200, 16, 46, 0.6); /* Semi-transparent red */
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 0 0 15px 15px;
+            backdrop-filter: blur(10px); /* Frosted glass effect for navbar */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar .navbar-brand {
+            background: rgba(255, 255, 255, 0.3); /* Transparent white for glass effect */
+            backdrop-filter: blur(8px); /* Frosted glass effect for the heading */
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .navbar .navbar-brand:hover {
+            background: rgba(255, 255, 255, 0.4); /* Slightly more opaque on hover */
+        }
+
+        .navbar .nav-link {
+            color: #ffffff;
+            margin-right: 15px;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-link:hover {
+            color: #f3a2a2;
+        }
+
+        /* Main Heading & Container */
+        .main-container {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .main-heading {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff; /* White text */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Border effect */
+            margin-bottom: 15px;
+        }
+
+        .sub-heading {
+            font-size: 20px;
+            color: #ffffff; /* White text */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Border effect */
+            margin-bottom: 40px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            margin: 30px auto;
+            max-width: 600px;
+            border-radius: 25px;
+            background: rgba(200, 16, 46, 0.3); /* Deeper Transparent red */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 10px 40px 10px 20px; /* Space for the icon */
+            font-size: 1rem;
+            background: transparent;
+            color: #ffffff; /* White text */
+        }
+
+        .search-bar .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        /* Feature Section Background - Glass Effect */
+        .features-background {
+            background: rgba(255, 255, 255, 0.2); /* Transparent white */
+            backdrop-filter: blur(15px); /* Frosted glass effect */
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 30px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Feature Cards - Deeper Glassmorphism Effect in Red */
+        .feature-card {
+            background: rgba(200, 16, 46, 0.4); /* Deeper Transparent red */
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: #ffebee;
+            margin-bottom: 10px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #c8102e;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #a60b24;
+            box-shadow: 0 0 10px rgba(200, 16, 46, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            padding: 20px;
+            background: #c8102e;
+            color: #ffffff;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">ModulHub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="/marketplace">Marketplace</a></li>
+                <li class="nav-item"><a class="nav-link" href="/bulletin">Bulletin</a></li>
+                <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
+                <li class="nav-item"><a class="nav-link" href="/elibrary">eLibrary</a></li>
+                <li class="nav-item"><a class="nav-link" href="/calendar">Calendar</a></li>
+            </ul>
+            <a href="/profile" class="btn btn-outline-light">Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+        <h1 class="main-heading">Connecting Modul University Students</h1>
+        <p class="sub-heading">Buy, Sell, Learn, and Engage in one platform</p>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" class="form-control" placeholder="Search for items, discussions, or resources...">
+            <i class="bi bi-search search-icon"></i> <!-- Search icon -->
+        </div>
+
+        <!-- Features Section with Glass Background -->
+        <div class="features-background">
+            <div class="row card-container">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📦</div>
+                        <h3>Marketplace</h3>
+                        <p>Buy and sell textbooks, electronics, and more.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📢</div>
+                        <h3>Bulletin</h3>
+                        <p>Advertise jobs, events, and services on campus.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">💬</div>
+                        <h3>Forum</h3>
+                        <p>Engage in discussions on academic and social topics.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>eLibrary</h3>
+                        <p>Access course-related eBooks and resources.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📅</div>
+                        <h3>Calendar</h3>
+                        <p>Keep track of important dates and events.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Modul Virtual Tour</h3>
+                        <p>Explore Modul University with a 360° virtual tour.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 ModulHub. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and Icon Library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</body>
+</html>

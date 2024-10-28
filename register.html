@@ -3,224 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Welcome to ModulHub - Sign In / Register</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-image: url(asset/images/left-bg-decor.png);
-            background-repeat: no-repeat;
-            background-color: #ffffff; /* Ensure a white background */
-            font-family: 'Arial', sans-serif; /* Changed font to Arial */
-        }
-
-        .error {
-            color: red;
-            font-size: 0.9em;
-        }
-
-        .password-strength {
-            height: 5px;
-            margin-top: 5px;
-            border-radius: 5px;
-        }
-
-        .short-input {
-            width: 250px; /* Adjust the width for shorter input fields */
-        }
-
-        /* Navbar styles */
-        .navbar {
-            background: rgba(255, 255, 255, 0.7); /* Transparent glass effect */
-            backdrop-filter: blur(15px); /* Blurred background effect */
-            box-shadow: 0 4px 10px rgba(255, 87, 34, 0.5); /* Shadow effect */
-            padding: 15px 30px;
-            border-radius: 0 0 15px 15px; /* Rounded bottom corners */
-            transition: background 0.3s ease; /* Transition effect for background */
-            z-index: 10; /* Ensure navbar is above other elements */
-        }
-
-        /* Navbar brand (logo) */
-        .navbar-brand {
-            font-size: 30px;
-            font-weight: bold;
-            color: #ff5722; /* Primary color */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Navbar link styles */
-        .nav-link {
-            color: gray; /* Default color for links */
-            text-decoration: none; /* Remove underline */
-            transition: color 0.3s ease; /* Smooth transition effect */
-        }
-
-        .nav-link:hover {
-            color: orange; /* Color changes to orange on hover */
-        }
-
-        /* Active link styling */
-        .nav-link.active {
-            color: #ff5722; /* Primary color for active link */
-        }
-
-        /* Registration form glassmorphism effect */
-        .register-container {
-            margin: 100px auto; /* Increased margin to prevent overlap */
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.8); /* Transparent glass effect */
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
-            backdrop-filter: blur(15px); /* Blurred background effect */
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            max-width: 600px; /* Width of the registration box */
-            position: relative; /* Changed to relative positioning */
-            top: 0; /* Reset vertical position */
-        }
-
-        /* Form label styling */
-        .form-label {
-            color: #333;
-        }
-
-        /* Siri-inspired button styling */
-        .siri-animated-btn {
-            position: relative;
-            background: linear-gradient(135deg, #ff5722, #ffcc33);
-            color: white;
-            border: none;
-            border-radius: 25px; /* Smaller radius for a smaller button */
-            padding: 10px 20px; /* Reduced padding */
-            font-size: 16px; /* Smaller font size */
-            text-transform: uppercase;
-            letter-spacing: 1px; /* Reduced letter-spacing */
-            cursor: pointer;
+            background: #f6f5f7;
+            background-image: url(177801_MUSmartHub.jpg);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            margin: 0;
             overflow: hidden;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
-            width: auto; /* Change to auto to fit content */
         }
 
-        .siri-animated-btn:hover {
-            transform: scale(1.03); /* Slightly smaller scale for hover */
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        /* Navbar */
+        .navbar {
+            background-color: rgba(200, 16, 46, 0.6); /* Semi-transparent red */
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 0 0 15px 15px;
+            backdrop-filter: blur(10px); /* Frosted glass effect for navbar */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        /* Waves for the ripple effect */
-        .siri-animated-btn .wave {
+        .navbar .navbar-brand {
+            background: rgba(255, 255, 255, 0.3); /* Transparent white for glass effect */
+            backdrop-filter: blur(8px); /* Frosted glass effect for the heading */
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .navbar .navbar-brand:hover {
+            background: rgba(255, 255, 255, 0.4); /* Slightly more opaque on hover */
+        }
+
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+
+        a {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid #FF4B2B;
+            background-color: #FF4B2B;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        button.ghost {
+            background-color: transparent;
+            border-color: #FFFFFF;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.3); /* Glassmorphic effect */
+            backdrop-filter: blur(15px); /* Frosted glass effect for form */
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            height: 100%;
+            text-align: center;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        input {
+            background-color: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.2); /* Glassmorphic effect */
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            position: relative;
+            overflow: hidden;
+            width: 800px;
+            max-width: 100%;
+            min-height: 500px;
+        }
+
+        .form-container {
             position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            animation: pulse 1.2s ease-out infinite;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
         }
 
-        /* Pulse effect for the waves */
-        @keyframes pulse {
-            0% {
-                transform: scale(0);
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1);
-                opacity: 0.4;
-            }
-            100% {
-                transform: scale(1.5);
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+            opacity: 0; /* Hide the sign-in form when on sign-up view */
+        }
+
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+
+        @keyframes show {
+            0%, 49.99% {
                 opacity: 0;
+                z-index: 1;
+            }
+            
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
             }
         }
 
-        /* Adding a flare/glow when button is clicked */
-        .siri-animated-btn:active {
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
-            box-shadow: 0 10px 50px rgba(255, 87, 34, 0.7), inset 0 5px 20px rgba(255, 87, 34, 0.3);
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay {
+            background: #FF416C;
+            background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            color: #FFFFFF;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        .social-container {
+            margin: 20px 0;
+        }
+
+        .social-container a {
+            border: 1px solid #DDDDDD;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
         }
     </style>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 <body>
+
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Volunteer Management</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/events">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about-us">About Us</a>
-                </li>
-            </ul>
-        </div>
+        <a class="navbar-brand" href="#">ModulHub</a>
     </nav>
 
-    <div class="container register-container">
-        <h2>Register as a Volunteer</h2>
-        <form id="registerForm" action="/register" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="firstName" class="form-label">First Name</label>
-                <input type="text" class="form-control short-input" id="firstName" name="firstName" required>
-            </div>
-            <div class="mb-3">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control short-input" id="lastName" name="lastName" required>
-            </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control short-input" id="username" name="username" required>
-                <div id="usernameError" class="error"></div>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control short-input" id="email" name="email" required>
-                <div id="emailError" class="error"></div>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control short-input" id="password" name="password" required>
-                <div id="passwordError" class="error"></div>
-                <div class="password-strength" id="passwordStrength"></div>
-                <small>Password must be at least 8 characters long, contain one uppercase letter, and one special character.</small>
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control short-input" id="confirmPassword" name="confirmPassword" required>
-                <div id="confirmPasswordError" class="error"></div>
-            </div>
-            <div class="mb-3">
-                <label for="country" class="form-label">Country</label>
-                <select class="form-control short-input" id="country" name="country" required>
-                    <option value="">Select Country</option>
-                    <!-- Add countries dynamically -->
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="gender" class="form-label">Gender</label>
-                <div>
-                    <input type="radio" name="gender" id="male" value="male" required> 
-                    <label for="male">Male</label>
-                    <input type="radio" name="gender" id="female" value="female"> 
-                    <label for="female">Female</label>
-                    <input type="radio" name="gender" id="other" value="other"> 
-                    <label for="other">Other</label>
+    <!-- Sign In / Register Form -->
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="#">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" placeholder="Name" />
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Password" />
+                <button>Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="#">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Password" />
+                <a href="#">Forgot your password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us, please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="profilePic" class="form-label">Profile Picture</label>
-                <input type="file" class="form-control short-input" id="profilePic" name="profilePic">
-            </div>
-            <button type="submit" class="siri-animated-btn">Register</button>
-        </form>
+        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS and Font Awesome -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/register.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+    <!-- JavaScript to Handle Form Animation -->
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    </script>
 </body>
 </html>
