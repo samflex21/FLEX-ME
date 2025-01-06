@@ -205,3 +205,107 @@
         border-radius: 8px;
         color: var(--light);
     }
+
+    .payment-tabs {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .payment-tab {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        color: var(--light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .payment-tab.active {
+        background: var(--deep-orange);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--gray);
+    }
+
+    input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: var(--light);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .paypal-button, .googlepay-button {
+        background: #0070ba;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .googlepay-button {
+        background: #000;
+    }
+
+    .donation-summary {
+        margin: 2rem 0;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        color: var(--gray);
+    }
+
+    .summary-row.total {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 0.5rem;
+        padding-top: 1rem;
+        color: var(--light);
+        font-weight: bold;
+    }
+
+    .complete-payment-btn {
+        width: 100%;
+        padding: 1.2rem;
+        background: var(--accent);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
