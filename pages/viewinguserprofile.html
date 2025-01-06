@@ -39,3 +39,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Twitter-style Tabs -->
+    <div class="profile-tabs">
+        <div class="tabs-container">
+            <button class="tab-btn active" data-tab="latest">
+                Latest Campaigns
+                <div class="tab-indicator"></div>
+            </button>
+            <button class="tab-btn" data-tab="finished">
+                Finished Campaigns
+                <div class="tab-indicator"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- Latest Campaigns Tab -->
+        <div class="tab-pane active" id="latest-campaigns">
+            <div class="campaign-list">
+                {% if campaigns %}
+                    {% for campaign in campaigns %}
+                        {% if campaign.status == 'active' %}
+                        <div class="campaign-item">
+                            <div class="campaign-info">
+                                <h3>{{ campaign.title }}</h3>
+                                <p>{{ campaign.description[:100] }}{% if campaign.description|length > 100 %}...{% endif %}</p>
+                                <div class="campaign-meta">
+                                    <span><i class="fas fa-clock"></i> {{ campaign.created_at.strftime('%B %d, %Y') }}</span>
+                                    <span><i class="fas fa-heart"></i> €{{ '{:,.2f}'.format(campaign.amount_raised) }}</span>
+                                    <span><i class="fas fa-bullseye"></i> €{{ '{:,.2f}'.format(campaign.goal_amount) }}</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: {{ campaign.progress }}%"></div>
+                                    </div>
+                                    <span class="progress-text">{{ campaign.progress }}% Complete</span>
+                                </div>
+                                <div class="campaign-actions">
+                                    <a href="{{ url_for('campaign_detail', campaign_id=campaign.id) }}" class="view-btn">
+                                        <i class="fas fa-eye"></i> View Campaign
+                                    </a>
+                                    <!-- Remove or comment out the donate button until it's implemented
+                                    <a href="{{ url_for('donate', campaign_id=campaign.id) }}" class="donate-btn">
+                                        <i class="fas fa-hand-holding-heart"></i> Support
+                                    </a>
+                                    -->
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h3>No Active Campaigns</h3>
+                            <p>{{ user.username }} doesn't have any active campaigns at the moment.</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3>No Campaigns Found</h3>
+                        <p>{{ user.username }} hasn't created any campaigns yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
