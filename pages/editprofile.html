@@ -25,3 +25,52 @@
                     <input type="file" id="profile-upload" name="profile_picture" accept="image/*" hidden>
                 </div>
             </div>
+
+            <!-- Profile Information -->
+            <div class="form-group">
+                <label for="display-name">Display Name</label>
+                <input type="text" id="display-name" name="display_name" value="John Doe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="username-input">
+                    <span class="at-symbol">@</span>
+                    <input type="text" id="username" name="username" value="johndoe" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4" maxlength="160">Passionate about helping others and making a difference in the community. Together we can create positive change!</textarea>
+                <span class="character-count">0/160</span>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="Amsterdam, Netherlands">
+            </div>
+
+            <!-- Contact Information -->
+            <div class="form-section">
+                <h3>Contact Information</h3>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="john.doe@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" value="+31 6 12345678">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" onclick="window.location.href='{{ url_for('profile') }}'">Cancel</button>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
