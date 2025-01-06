@@ -1,1 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-page">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-top-section">
+            <div class="profile-main-content">
+                <div class="profile-avatar-large">J</div>
+                <div class="profile-name-section">
+                    <div class="name-and-badge">
+                        <h2>John Doe</h2>
+                        <div class="trust-badge gold">
+                            <i class="fas fa-award"></i>
+                            Gold
+                        </div>
+                    </div>
+                    <span class="username">@johndoe</span>
+                </div>
+            </div>
+            <a href="{{ url_for('edit_profile') }}" class="edit-profile-btn">
+                <i class="fas fa-edit"></i>
+                Edit Profile
+            </a>
+        </div>
+        <div class="profile-info-bar">
+            <div class="bio-section">
+                <p>Passionate about helping others and making a difference in the community. Together we can create positive change!</p>
+            </div>
+        </div>
+    </div>
 
