@@ -1,1 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="notifications-page">
+    <!-- Back Button -->
+    <div class="back-section">
+        <a href="{{ url_for('dashboard') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+    </div>
+
+    <!-- Notification Filters -->
+    <div class="notification-filters">
+        <button class="filter-btn active" data-filter="all">
+            <i class="fas fa-bell"></i>
+            All Notifications
+        </button>
+        <button class="filter-btn" data-filter="campaigns">
+            <i class="fas fa-bullhorn"></i>
+            Campaign Updates
+        </button>
+        <button class="filter-btn" data-filter="help">
+            <i class="fas fa-hand-holding-heart"></i>
+            Help Requests
+        </button>
+        <button class="filter-btn" data-filter="system">
+            <i class="fas fa-cog"></i>
+            System Notifications
+        </button>
+    </div>
 
