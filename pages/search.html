@@ -62,3 +62,17 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    {% elif query %}
+        <div class="no-results">
+            <div class="no-results-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>No Results Found</h3>
+            <p>Try different keywords or browse our campaigns</p>
+            <a href="{{ url_for('campaigns') }}" class="browse-btn">
+                Browse All Campaigns
+            </a>
+        </div>
+    {% endif %}
+</div>
