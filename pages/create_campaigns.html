@@ -238,3 +238,62 @@ input:focus, select:focus, textarea:focus {
     .campaign-form-wrapper {
         padding: 2rem;
     }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set minimum date for deadline to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('deadline').min = today;
+
+    // File upload preview
+    const fileUpload = document.querySelector('.file-upload');
+    const fileInput = document.getElementById('image');
+
+    fileUpload.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const placeholder = fileUpload.querySelector('.upload-placeholder');
+            placeholder.innerHTML = `<i class="fas fa-check"></i><span>${this.files[0].name}</span>`;
+            fileUpload.style.borderColor = 'var(--deep-orange)';
+        }
+    });
+
+    // Drag and drop functionality
+    fileUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUpload.style.borderColor = 'var(--deep-orange)';
+        fileUpload.style.background = 'rgba(255, 255, 255, 0.05)';
+    });
+
+    fileUpload.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        fileUpload.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        fileUpload.style.background = 'transparent';
+    });
+
+    fileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            fileInput.files = e.dataTransfer.files;
+            const placeholder = fileUpload.querySelector('.upload-placeholder');
+            placeholder.innerHTML = `<i class="fas fa-check"></i><span>${e.dataTransfer.files[0].name}</span>`;
+        }
+    });
+});
+</script>
+{% endblock %} 
