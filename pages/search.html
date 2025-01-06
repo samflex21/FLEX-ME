@@ -1,1 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="campaigns-container">
+    <div class="search-header">
+        {% if query %}
+            <h2>Search Results for "{{ query }}"</h2>
+            <p>Found {{ results|length }} result(s)</p>
+        {% else %}
+            <h2>Search Campaigns</h2>
+            <p>Enter a search term to find campaigns</p>
+        {% endif %}
+    </div>
+
+    {% if results %}
+        <div class="campaigns-grid">
+            {% for campaign in results %}
+                <div class="campaign-card">
+                    <div class="card-header">
+                        <span class="category-tag">{{ campaign.category }}</span>
+                        <div class="campaign-info">
+                            <h3>{{ campaign.title }}</h3>
+                            <p>{{ campaign.description[:100] }}...</p>
+                        </div>
+                    </div>
 
