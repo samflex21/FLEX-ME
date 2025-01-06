@@ -277,3 +277,63 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Bio character count
+    const bioTextarea = document.getElementById('bio');
+    const charCount = document.querySelector('.character-count');
+
+    function updateCharCount() {
+        const length = bioTextarea.value.length;
+        charCount.textContent = `${length}/160`;
+    }
+
+    bioTextarea.addEventListener('input', updateCharCount);
+    // Initialize character count
+    updateCharCount();
+
+    // Profile picture preview
+    const profileUpload = document.getElementById('profile-upload');
+    const currentPicture = document.querySelector('.current-picture');
+    const originalText = currentPicture.innerHTML;
+
+    profileUpload.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                currentPicture.innerHTML = '';
+                currentPicture.style.backgroundImage = `url(${e.target.result})`;
+                currentPicture.style.backgroundSize = 'cover';
+                currentPicture.style.backgroundPosition = 'center';
+            }
+            
+            reader.readAsDataURL(this.files[0]);
+        } else {
+            currentPicture.innerHTML = originalText;
+            currentPicture.style.backgroundImage = '';
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('.edit-form');
+    form.addEventListener('submit', function(e) {
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        
+        if (username.length < 3) {
+            e.preventDefault();
+            alert('Username must be at least 3 characters long');
+            return;
+        }
+
+        if (!email.includes('@')) {
+            e.preventDefault();
+            alert('Please enter a valid email address');
+            return;
+        }
+    });
+});
+</script>
+{% endblock %} 
