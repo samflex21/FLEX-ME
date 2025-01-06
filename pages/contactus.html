@@ -1,1 +1,19 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="contact-page">
+    <div class="contact-container">
+        <h1>Contact Us</h1>
+        <p class="contact-intro">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                        <button type="button" class="close-alert">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
