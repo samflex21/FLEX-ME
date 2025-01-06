@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flex Me</title>
+    <title>Lifeline</title>
     
     <!-- External CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -710,11 +710,127 @@
             background: rgba(211, 84, 0, 0.1);
             border-radius: 12px;
         }
+
+        /* Add these styles to your existing CSS */
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logout-link {
+            color: var(--gray);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .logout-link:hover {
+            color: var(--deep-orange);
+            background: rgba(211, 84, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .logout-link i {
+            font-size: 1.2rem;
+        }
+
+        /* Update or add these styles */
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--deep-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 1.2rem;
+            overflow: hidden;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--light);
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Add these styles to your existing styles */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-area {
+            position: relative;
+        }
+
+        .notification-bell {
+            color: var(--light);
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .notification-bell:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--deep-orange);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--dark);
+        }
+
+        /* Animation for new notifications */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .notification-badge.new {
+            animation: pulse 1s infinite;
+        }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
-    <nav class="sidebar">
+    <div class="sidebar">
         <div class="logo">
             <div class="logo-icon">
                 <span class="logo-text">LIFELINE</span>
@@ -730,7 +846,7 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>Create Campaign</span>
             </a>
-            <a href="{{ url_for('campaigns') }}" class="nav-item {{ 'active' if request.endpoint == 'campaigns' }}">
+            <a href="{{ url_for('campaigns') }}" class="nav-link {{ 'active' if request.endpoint == 'campaigns' }}">
                 <i class="fas fa-list-alt"></i>
                 <span>All Campaigns</span>
             </a>
@@ -742,7 +858,15 @@
             </a>
         -->
         </div>
-    </nav>
+
+        <!-- Add this at the bottom of the sidebar, before closing the sidebar div -->
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="nav-link logout-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -753,9 +877,9 @@
                     <div class="search-input-wrapper">
                         <i class="fas fa-search"></i>
                         <input type="text" 
-                               name="query" 
+                               name="q"
                                placeholder="Search campaigns..."
-                               value="{{ request.args.get('query', '') }}"
+                               value="{{ request.args.get('q', '') }}"
                                class="search-input"
                                autocomplete="off"
                                id="searchInput">
@@ -764,34 +888,26 @@
                 </form>
             </div>
 
-            <div class="user-area">
-                <a href="{{ url_for('notifications') }}" class="notifications">
-                    <i class="fas fa-bell"></i>
-                    <span class="badge">3</span>
-                </a>
-
-                <div class="user-profile">
-                    <div class="profile-trigger">
-                        <div class="user-avatar">J</div>
-                        <div class="user-info">
-                            <h4>John Doe</h4>
-                            <div class="trust-badge gold">
-                                <i class="fas fa-award"></i>
-                                <span>Gold</span>
+            <div class="nav-actions">
+                <div class="notification-area">
+                    <a href="{{ url_for('notifications') }}" class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        {% if notification_count and notification_count > 0 %}
+                            <span class="notification-badge">{{ notification_count }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="user-area">
+                    {% if 'user_id' in session %}
+                        <a href="{{ url_for('userprofile') }}" class="user-profile">
+                            <div class="user-avatar" {% if session.get('has_profile_picture') %}style="background-image: url('{{ url_for('get_profile_picture', user_id=session.get('user_id'), t=current_time) }}'); background-size: cover; background-position: center;"{% endif %}>
+                                {% if not session.get('has_profile_picture') %}
+                                    {{ session.get('username', '')[0] | upper }}
+                                {% endif %}
                             </div>
-                        </div>
-                    </div>
-                    <!-- Dropdown Menu -->
-                    <div class="profile-dropdown">
-                        <a href="{{ url_for('profile') }}" class="dropdown-item">
-                            <i class="fas fa-user"></i>
-                            Profile
+                            <span>{{ session.get('username', '') }}</span>
                         </a>
-                        <a href="{{ url_for('logout') }}" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Logout
-                        </a>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -963,6 +1079,19 @@
                 searchSuggestions.style.display = 'none';
             }
         });
+
+        // Add this to force profile picture refresh when needed
+        function refreshProfilePicture() {
+            const avatar = document.querySelector('.user-avatar');
+            if (avatar && avatar.style.backgroundImage) {
+                const url = new URL(avatar.style.backgroundImage.slice(5, -2));
+                url.searchParams.set('t', Date.now());
+                avatar.style.backgroundImage = `url('${url}')`;
+            }
+        }
+
+        // Call this function when profile is updated
+        document.addEventListener('DOMContentLoaded', refreshProfilePicture);
     </script>
 </body>
 </html> 
