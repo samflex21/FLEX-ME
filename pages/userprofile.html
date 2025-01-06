@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 
+{% block title %}Profile - Lifeline{% endblock %}
+
 {% block content %}
 <div class="profile-page">
     <!-- Profile Header -->
     <div class="profile-header">
         <div class="profile-top-section">
             <div class="profile-main-content">
-                <div class="profile-avatar-large">J</div>
+                <div class="profile-avatar-large" {% if user.has_profile_picture %}style="background-image: url('{{ url_for('get_profile_picture', user_id=session.get('user_id'), t=current_time) }}'); background-size: cover; background-position: center;"{% endif %}>
+                    {% if not user.has_profile_picture %}
+                        {{ user.first_name[0] if user.first_name else 'U' }}
+                    {% endif %}
+                </div>
                 <div class="profile-name-section">
                     <div class="name-and-badge">
-                        <h2>John Doe</h2>
-                        <div class="trust-badge gold">
-                            <i class="fas fa-award"></i>
-                            Gold
+                        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                        <div class="trust-badge" id="userLevel">
+                            <i class="fas fa-check-circle"></i>
                         </div>
                     </div>
-                    <span class="username">@johndoe</span>
+                    <span class="username">@{{ user.username }}</span>
                 </div>
             </div>
             <a href="{{ url_for('edit_profile') }}" class="edit-profile-btn">
@@ -25,7 +30,7 @@
         </div>
         <div class="profile-info-bar">
             <div class="bio-section">
-                <p>Passionate about helping others and making a difference in the community. Together we can create positive change!</p>
+                <p>{{ user.bio if user.bio else 'No bio added yet.' }}</p>
             </div>
         </div>
     </div>
@@ -55,85 +60,75 @@
         <!-- Latest Campaigns Tab -->
         <div class="tab-pane active" id="latest-campaigns">
             <div class="campaign-list">
-                <!-- Sample Campaign Items -->
-                <div class="campaign-item">
-                    <div class="campaign-info">
-                        <h3>Help with Medical Bills</h3>
-                        <p>Need assistance with unexpected medical expenses...</p>
-                        <div class="campaign-meta">
-                            <span><i class="fas fa-clock"></i> 2 days ago</span>
-                            <span><i class="fas fa-heart"></i> €500 raised</span>
+                <!-- Debug info -->
+                <div style="display: none;">
+                    Debug: {{ user.campaigns|length }} campaigns total
+                </div>
+                
+                {% if user.campaigns %}
+                    {% for campaign in user.campaigns %}
+                    <div class="campaign-item">
+                        <div class="campaign-info">
+                            <!-- Debug info -->
+                            <small>Status: {{ campaign.status if campaign.status else 'No status' }}</small>
+                            
+                            <h3>{{ campaign.title }}</h3>
+                            <p>{{ campaign.description[:100] }}...</p>
+                            <div class="campaign-meta">
+                                <span><i class="fas fa-clock"></i> {{ campaign.time }}</span>
+                                <span><i class="fas fa-heart"></i> €{{ '{:,.2f}'.format(campaign.amount_raised) }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Add more campaign items as needed -->
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3>No Campaigns Found</h3>
+                        <p>You haven't created any campaigns yet.</p>
+                        <a href="{{ url_for('create_campaign') }}" class="create-campaign-btn">
+                            <i class="fas fa-plus"></i>
+                            Create Campaign
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
         <!-- Finished Campaigns Tab -->
         <div class="tab-pane" id="finished-campaigns">
             <div class="campaign-list">
-                <!-- Sample Finished Campaign Items -->
-                <div class="campaign-item finished">
-                    <div class="campaign-info">
-                        <h3>Laptop for School</h3>
-                        <p>Successfully raised funds for a new laptop...</p>
-                        <div class="campaign-meta">
-                            <span><i class="fas fa-check-circle"></i> Completed</span>
-                            <span><i class="fas fa-heart"></i> €800 raised</span>
+                {% if user.campaigns and user.campaigns|selectattr('status', 'equalto', 'completed')|list|length > 0 %}
+                    {% for campaign in user.campaigns if campaign.status == 'completed' %}
+                    <div class="campaign-item">
+                        <div class="campaign-info">
+                            <h3>{{ campaign.title }}</h3>
+                            <p>{{ campaign.description[:100] }}...</p>
+                            <div class="campaign-meta">
+                                <span><i class="fas fa-clock"></i> {{ campaign.time }}</span>
+                                <span><i class="fas fa-heart"></i> €{{ '{:,.2f}'.format(campaign.amount_raised) }}</span>
+                                <span><i class="fas fa-check-circle"></i> Completed</span>
+                                <span><i class="fas fa-trophy"></i> Goal: €{{ '{:,.2f}'.format(campaign.goal_amount) }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Add more finished campaign items as needed -->
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                        <h3>No Completed Campaigns</h3>
+                        <p>You haven't completed any campaigns yet.</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
-        <!-- Campaigns Supported Tab -->
-        {% if is_owner %}
-            <div class="tab-pane" id="supported-campaigns">
-                <div class="campaign-list">
-                    {% if purchases %}
-                        {% for purchase in purchases %}
-                            <div class="campaign-item supported">
-                                <div class="campaign-info">
-                                    <div class="campaign-header">
-                                        <span class="category-tag">{{ purchase.category }}</span>
-                                        <h3>{{ purchase.campaign_title }}</h3>
-                                        <p>{{ purchase.impact }}</p>
-                                    </div>
-                                    <div class="support-details">
-                                        <div class="amount-supported">
-                                            <span class="label">Amount Supported</span>
-                                            <span class="value">${{ "{:,.2f}".format(purchase.amount) }}</span>
-                                        </div>
-                                        <div class="support-date">
-                                            <i class="fas fa-calendar"></i>
-                                            <span>{{ purchase.date }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="campaign-meta">
-                                        <span><i class="fas fa-receipt"></i> {{ purchase.receipt_id }}</span>
-                                        <span><i class="fas fa-heart"></i> Made an Impact</span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <h3>No Supported Campaigns Yet</h3>
-                            <p>Start making a difference by supporting campaigns that matter to you.</p>
-                            <a href="{{ url_for('campaigns') }}" class="browse-btn">
-                                <i class="fas fa-search"></i>
-                                Explore Campaigns
-                            </a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
+        <!-- Keep the rest of your existing tab panes -->
+        <!-- ... -->
     </div>
 </div>
 
@@ -175,6 +170,15 @@
         justify-content: center;
         font-size: 3rem;
         color: white;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .profile-avatar-large img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .profile-name-section {
@@ -202,38 +206,41 @@
     }
 
     .trust-badge {
-        display: inline-flex;
+        display: flex;
         align-items: center;
-        gap: 0.3rem;
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
+        background: transparent !important;
     }
 
-    /* Trust Badge Colors */
-    .trust-badge.bronze {
-        background: #cd7f32;
-        color: white;
+    .trust-badge i {
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+        background: transparent !important;
     }
 
-    .trust-badge.silver {
-        background: #c0c0c0;
-        color: #2c3e50;
+    /* Trust badge levels */
+    [data-level="BRONZE"] .fas.fa-check-circle {
+        color: #CD7F32;
+        background: transparent !important;
     }
 
-    .trust-badge.gold {
-        background: #ffd700;
-        color: #2c3e50;
+    [data-level="SILVER"] .fas.fa-check-circle {
+        color: #C0C0C0;
+        background: transparent !important;
     }
 
-    .trust-badge.platinum {
-        background: #e5e4e2;
-        color: #2c3e50;
+    [data-level="GOLD"] .fas.fa-check-circle {
+        color: #FFD700;
+        background: transparent !important;
     }
 
-    .trust-badge.diamond {
-        background: linear-gradient(45deg, #b9f2ff, #a3e4ff);
-        color: #2c3e50;
+    [data-level="PLATINUM"] .fas.fa-check-circle {
+        color: #E5E4E2;
+        background: transparent !important;
+    }
+
+    [data-level="DIAMOND"] .fas.fa-check-circle {
+        color: #B9F2FF;
+        background: transparent !important;
     }
 
     .profile-info-bar {
@@ -448,6 +455,7 @@
     .empty-state h3 {
         color: var(--light);
         margin-bottom: 1rem;
+        font-size: 1.5rem;
     }
 
     .empty-state p {
@@ -455,7 +463,7 @@
         margin-bottom: 2rem;
     }
 
-    .browse-btn {
+    .create-campaign-btn {
         display: inline-flex;
         align-items: center;
         gap: 0.8rem;
@@ -465,11 +473,16 @@
         text-decoration: none;
         border-radius: 8px;
         transition: all 0.3s ease;
+        font-weight: 500;
     }
 
-    .browse-btn:hover {
+    .create-campaign-btn:hover {
         background: var(--accent);
         transform: translateY(-2px);
+    }
+
+    .create-campaign-btn i {
+        font-size: 1.1rem;
     }
 
     @media (max-width: 768px) {
@@ -544,6 +557,13 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById(tabId).classList.add('active');
         });
     });
+
+    // Update the trust level setting in the script
+    const userLevel = document.getElementById('userLevel');
+    userLevel.setAttribute('data-level', '{{ user.trust_level|upper }}');
+
+    // Debug log to check if trust level is being set
+    console.log('Trust Level:', '{{ user.trust_level|upper }}');
 });
 </script>
 {% endblock %} 
