@@ -108,3 +108,41 @@
                 {% endif %}
             </div>
         </div>
+
+        <!-- Finished Campaigns Tab -->
+        <div class="tab-pane" id="finished-campaigns">
+            <div class="campaign-list">
+                {% if campaigns %}
+                    <p>Found {{ campaigns|length }} campaigns</p>
+                    {% for campaign in campaigns if campaign.status == 'completed' %}
+                    <div class="campaign-item finished">
+                        <div class="campaign-info">
+                            <h3>{{ campaign.title }}</h3>
+                            <p>{{ campaign.description[:100] }}{% if campaign.description|length > 100 %}...{% endif %}</p>
+                            <div class="campaign-meta">
+                                <span><i class="fas fa-clock"></i> {{ campaign.created_at.strftime('%B %d, %Y') }}</span>
+                                <span><i class="fas fa-heart"></i> €{{ '{:,.2f}'.format(campaign.amount_raised) }}</span>
+                                <span><i class="fas fa-check-circle"></i> Goal Reached</span>
+                                <span><i class="fas fa-trophy"></i> €{{ '{:,.2f}'.format(campaign.goal_amount) }}</span>
+                            </div>
+                            <div class="campaign-actions">
+                                <a href="{{ url_for('view_campaign', campaign_id=campaign.id) }}" class="view-btn">
+                                    <i class="fas fa-eye"></i> View Results
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                        <h3>No Completed Campaigns</h3>
+                        <p>{{ user.username }} hasn't completed any campaigns yet.</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
