@@ -98,3 +98,110 @@
                 });
             });
             </script>
+
+            <!-- Credit Card Form -->
+            <div class="payment-form-section" id="cardForm">
+                <div id="payment-element">
+                    <!-- Stripe Elements will be inserted here -->
+                </div>
+                <div id="payment-message" class="payment-message hidden"></div>
+            </div>
+
+            <!-- PayPal Section -->
+            <div class="payment-form-section hidden" id="paypalForm">
+                <div class="paypal-button">
+                    <i class="fab fa-paypal"></i>
+                    Continue with PayPal
+                </div>
+            </div>
+
+            <!-- Google Pay Section -->
+            <div class="payment-form-section hidden" id="googlepayForm">
+                <div class="googlepay-button">
+                    <i class="fab fa-google-pay"></i>
+                    Pay with Google Pay
+                </div>
+            </div>
+        </div>
+
+        <!-- Donation Summary -->
+        <div class="donation-summary">
+            <div class="summary-row">
+                <span>Donation Amount</span>
+                <span id="donationAmount">€0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Processing Fee</span>
+                <span id="processingFee">€0.00</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span id="totalAmount">€0.00</span>
+            </div>
+        </div>
+
+        <!-- Complete Payment Button -->
+        <button type="submit" class="complete-payment-btn" id="completePayment">
+            <i class="fas fa-lock"></i>
+            Complete Payment
+        </button>
+    </form>
+</div>
+
+<style>
+    .payment-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .campaign-summary {
+        background: rgba(44, 62, 80, 0.3);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+
+    .campaign-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        color: var(--gray);
+    }
+
+    .payment-form {
+        background: rgba(44, 62, 80, 0.3);
+        padding: 2rem;
+        border-radius: 12px;
+    }
+
+    .amount-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .amount-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 1rem;
+        border-radius: 8px;
+        color: var(--light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .amount-btn:hover, .amount-btn.active {
+        background: var(--deep-orange);
+        border-color: var(--deep-orange);
+    }
+
+    .custom-amount input {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: var(--light);
+    }
