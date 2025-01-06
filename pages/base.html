@@ -57,32 +57,23 @@
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            text-decoration: none;
-        }
-
-        .logo span {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--light);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .logo-icon {
-            width: 45px;
-            height: 45px;
             background: var(--deep-orange);
-            border-radius: 12px;
-            display: flex;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+        }
+
+        .logo-text {
             color: white;
-            font-weight: bold;
-            transform: rotate(-10deg);
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
         }
 
         .main-nav {
@@ -141,6 +132,7 @@
             border-radius: 30px;
             padding: 0.8rem 1.5rem;
             width: 300px;
+            position: relative;
         }
 
         .search-bar input {
@@ -260,20 +252,83 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
         }
 
         .user-info h4 {
             font-size: 0.9rem;
-            margin-bottom: 0.2rem;
+            color: var(--light);
+            margin: 0;
+        }
+
+        /* Trust Badge specific size for header */
+        .user-info .trust-badge {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+        }
+
+        /* Ensure consistent sizing */
+        .user-info .trust-badge i {
+            font-size: 0.8rem;
         }
 
         .trust-badge {
-            font-size: 0.8rem;
-            padding: 0.2rem 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
+            font-size: 0.9rem;
             background: var(--deep-orange);
             color: white;
+        }
+
+        /* Trust Badge Colors - Updated */
+        .trust-badge.bronze {
+            background: #cd7f32;
+            color: white;
+        }
+
+        .trust-badge.silver {
+            background: #c0c0c0;
+            color: #2c3e50;
+        }
+
+        .trust-badge.gold {
+            background: #ffd700;
+            color: #2c3e50;
+        }
+
+        .trust-badge.platinum {
+            background: #e5e4e2;
+            color: #2c3e50;
+        }
+
+        .trust-badge.diamond {
+            background: linear-gradient(45deg, #b9f2ff, #a3e4ff);
+            color: #2c3e50;
+        }
+
+        /* Trust Badge Icon */
+        .trust-badge i {
+            font-size: 0.9rem;
+        }
+
+        /* Trust Badge Text */
+        .trust-badge span {
+            font-weight: 500;
+        }
+
+        /* Trust Badge Hover Effect */
+        .trust-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         /* Footer Styles */
@@ -360,6 +415,14 @@
                 padding: 1rem;
             }
 
+            .logo-icon {
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .logo-text {
+                font-size: 0.9rem;
+            }
+
             .logo span, 
             .nav-item span {
                 display: none;
@@ -414,37 +477,270 @@
             background: var(--deep-orange);
             box-shadow: 0 0 8px var(--deep-orange);
         }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--secondary);
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(211, 84, 0, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-orange);
+        }
+
+        .result-info {
+            flex: 1;
+        }
+
+        .result-title {
+            color: var(--light);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-subtitle {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .result-type {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        /* Header User Profile Styles - More specific selectors */
+        .top-header .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .top-header .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .top-header .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--deep-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .top-header .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .top-header .user-info h4 {
+            font-size: 0.9rem;
+            color: var(--light);
+            margin: 0;
+        }
+
+        /* Trust Badge specific size for header */
+        .top-header .user-info .trust-badge {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+        }
+
+        .top-header .user-info .trust-badge i {
+            font-size: 0.8rem;
+        }
+
+        /* Navigation Link Styles */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 24px;
+            color: var(--light);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(236, 240, 241, 0.1);
+            color: var(--deep-orange);
+        }
+
+        /* Specific style for create campaign link on hover only */
+        .nav-link:hover i.fa-plus-circle,
+        .nav-link.active i.fa-plus-circle {
+            color: var(--deep-orange);
+            transform: rotate(90deg);
+            transition: all 0.3s ease;
+        }
+
+        .search-container {
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        .search-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--deep-orange);
+            box-shadow: 0 0 0 2px rgba(211, 84, 0, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--gray);
+        }
+
+        /* Add these styles to your existing search styles */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(44, 62, 80, 0.95);
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .suggestion-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .suggestion-title {
+            color: var(--light);
+        }
+
+        .suggestion-category {
+            color: var(--deep-orange);
+            font-size: 0.9rem;
+            padding: 0.2rem 0.8rem;
+            background: rgba(211, 84, 0, 0.1);
+            border-radius: 12px;
+        }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
     <nav class="sidebar">
         <div class="logo">
-            <div class="logo-icon">F</div>
-            <span>Flex Me</span>
+            <div class="logo-icon">
+                <span class="logo-text">LIFELINE</span>
+            </div>
         </div>
 
         <div class="main-nav">
-            <a href="{{ url_for('index') }}" class="nav-item {{ 'active' if request.endpoint == 'index' }}">
+            <a href="{{ url_for('dashboard') }}" class="nav-item {{ 'active' if request.endpoint == 'dashboard' }}">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="{{ url_for('create_campaign') }}" class="nav-link {% if request.endpoint == 'create_campaign' %}active{% endif %}">
                 <i class="fas fa-plus-circle"></i>
                 <span>Create Campaign</span>
             </a>
-            <a href="campaigns.html" class="nav-item">
+            <a href="{{ url_for('campaigns') }}" class="nav-item {{ 'active' if request.endpoint == 'campaigns' }}">
                 <i class="fas fa-list-alt"></i>
                 <span>All Campaigns</span>
             </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-hand-holding-heart"></i>
-                <span>People I've Helped</span>
+        
+            <!--
+            <a href="{{ url_for('purchases') }}" class="nav-link {% if request.endpoint == 'purchases' %}active{% endif %}">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Purchases</span>
             </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-history"></i>
-                <span>Transaction History</span>
-            </a>
+        -->
         </div>
     </nav>
 
@@ -452,9 +748,20 @@
     <main class="main-content">
         <!-- Top Header -->
         <header class="top-header">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search ...">
+            <div class="search-container">
+                <form action="{{ url_for('search') }}" method="GET" class="search-form">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" 
+                               name="query" 
+                               placeholder="Search campaigns..."
+                               value="{{ request.args.get('query', '') }}"
+                               class="search-input"
+                               autocomplete="off"
+                               id="searchInput">
+                    </div>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </form>
             </div>
 
             <div class="user-area">
@@ -468,7 +775,10 @@
                         <div class="user-avatar">J</div>
                         <div class="user-info">
                             <h4>John Doe</h4>
-                            <span class="trust-badge">Gold Level</span>
+                            <div class="trust-badge gold">
+                                <i class="fas fa-award"></i>
+                                <span>Gold</span>
+                            </div>
                         </div>
                     </div>
                     <!-- Dropdown Menu -->
@@ -529,20 +839,128 @@
             const menuToggle = document.querySelector('.menu-toggle');
             const sidebar = document.querySelector('.sidebar');
             
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
 
             // Search functionality
-            const searchInput = document.querySelector('.search-bar input');
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            let searchTimeout;
+
             searchInput.addEventListener('input', function(e) {
-                // Add your search logic here
+                clearTimeout(searchTimeout);
+                const query = e.target.value;
+
+                if (query.length >= 2) {
+                    searchTimeout = setTimeout(() => {
+                        performSearch(query);
+                    }, 300);
+                } else {
+                    searchResults.style.display = 'none';
+                }
             });
+
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    searchResults.style.display = 'none';
+                }
+            });
+
+            function performSearch(query) {
+                fetch(`/search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(results => {
+                        displaySearchResults(results);
+                    })
+                    .catch(error => console.error('Search error:', error));
+            }
+
+            function displaySearchResults(results) {
+                if (results.length === 0) {
+                    searchResults.innerHTML = `
+                        <div class="search-result-item">
+                            <div class="result-info">
+                                <div class="result-title">No results found</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    searchResults.innerHTML = results.map(result => `
+                        <a href="${result.url}" class="search-result-item">
+                            <div class="result-icon">
+                                <i class="fas ${getIconForType(result.type)}"></i>
+                            </div>
+                            <div class="result-info">
+                                <div class="result-title">${result.title}</div>
+                                <div class="result-subtitle">${result.subtitle}</div>
+                            </div>
+                            <span class="result-type">${result.type}</span>
+                        </a>
+                    `).join('');
+                }
+                searchResults.style.display = 'block';
+            }
+
+            function getIconForType(type) {
+                const icons = {
+                    'campaign': 'fa-hand-holding-heart',
+                    'user': 'fa-user',
+                    'category': 'fa-tag'
+                };
+                return icons[type] || 'fa-search';
+            }
 
             // Mobile responsive menu
             if (window.innerWidth <= 768) {
                 const sidebar = document.querySelector('.sidebar');
                 // Add your mobile menu logic here
+            }
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+        let debounceTimer;
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const query = this.value.trim();
+                if (query.length >= 2) {
+                    fetch(`/search/autocomplete?query=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(suggestions => {
+                            if (suggestions.length > 0) {
+                                searchSuggestions.innerHTML = suggestions.map(suggestion => `
+                                    <div class="suggestion-item" onclick="selectSuggestion('${suggestion.title}')">
+                                        <span class="suggestion-title">${suggestion.title}</span>
+                                        <span class="suggestion-category">${suggestion.category}</span>
+                                    </div>
+                                `).join('');
+                                searchSuggestions.style.display = 'block';
+                            } else {
+                                searchSuggestions.style.display = 'none';
+                            }
+                        });
+                } else {
+                    searchSuggestions.style.display = 'none';
+                }
+            }, 300);
+        });
+
+        function selectSuggestion(title) {
+            searchInput.value = title;
+            searchSuggestions.style.display = 'none';
+            searchInput.form.submit();
+        }
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                searchSuggestions.style.display = 'none';
             }
         });
     </script>
