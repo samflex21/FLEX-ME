@@ -2,284 +2,36 @@
 
 {% block content %}
 <div class="notifications-page">
-    <!-- Back Button -->
-    <div class="back-section">
-        <a href="base.html" class="back-button">
-            <i class="fas fa-arrow-left"></i>
-            <span>Back to Dashboard</span>
-        </a>
-    </div>
-
-    <!-- Notification Filters -->
-    <div class="notification-filters">
-        <button class="filter-btn active" data-filter="all">
-            <i class="fas fa-bell"></i>
-            All Notifications
-        </button>
-        <button class="filter-btn" data-filter="campaigns">
-            <i class="fas fa-bullhorn"></i>
-            Campaign Updates
-        </button>
-        <button class="filter-btn" data-filter="help">
-            <i class="fas fa-hand-holding-heart"></i>
-            Help Requests
-        </button>
-        <button class="filter-btn" data-filter="system">
-            <i class="fas fa-cog"></i>
-            System Notifications
-        </button>
-    </div>
-
-    <!-- Notifications List -->
-    <div class="notifications-list">
-        <!-- Notifications will be dynamically loaded here -->
-    </div>
-</div>
-
-<style>
-    .notifications-page {
-        padding: 1rem;
-    }
-
-    .back-section {
-        margin-bottom: 2rem;
-    }
-
-    .back-button {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--light);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 8px;
-        width: fit-content;
-        transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-        background: var(--deep-orange);
-        transform: translateX(-5px);
-    }
-
-    .notification-filters {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-        flex-wrap: wrap;
-    }
-
-    .filter-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.8rem 1.5rem;
-        background: rgba(44, 62, 80, 0.3);
-        border: none;
-        border-radius: 8px;
-        color: var(--light);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .filter-btn:hover {
-        background: rgba(44, 62, 80, 0.5);
-    }
-
-    .filter-btn.active {
-        background: var(--deep-orange);
-    }
-
-    .notifications-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .notification-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .notification-item:hover {
-        background: rgba(44, 62, 80, 0.5);
-    }
-
-    .notification-content {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .notification-icon {
-        width: 40px;
-        height: 40px;
-        background: var(--deep-orange);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-    }
-
-    .notification-text {
-        flex: 1;
-    }
-
-    .notification-text h4 {
-        margin-bottom: 0.3rem;
-    }
-
-    .notification-text p {
-        color: var(--gray);
-        font-size: 0.9rem;
-    }
-
-    .notification-actions {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .delete-btn {
-        background: none;
-        border: none;
-        color: var(--danger);
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-
-    .delete-btn:hover {
-        background: rgba(231, 76, 60, 0.1);
-        transform: scale(1.1);
-    }
-
-    .time-stamp {
-        color: var(--gray);
-        font-size: 0.8rem;
-    }
-
-    @media (max-width: 768px) {
-        .notification-filters {
-            flex-direction: column;
-        }
-
-        .filter-btn {
-            width: 100%;
-            justify-content: center;
-        }
-    }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const notificationsList = document.querySelector('.notifications-list');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-
-    // Sample notifications data
-    const notifications = [
-        {
-            id: 1,
-            type: 'campaigns',
-            icon: 'fas fa-bullhorn',
-            title: 'Campaign Update',
-            message: 'Your campaign "New Laptop" has reached 75% of its goal!',
-            time: '2 hours ago'
-        },
-        {
-            id: 2,
-            type: 'help',
-            icon: 'fas fa-hand-holding-heart',
-            title: 'Help Request',
-            message: 'Sarah needs help with €200 for an iPhone repair',
-            time: '3 hours ago'
-        },
-        {
-            id: 3,
-            type: 'system',
-            icon: 'fas fa-cog',
-            title: 'System Update',
-            message: 'Your account has been verified successfully',
-            time: '1 day ago'
-        }
-    ];
-
-    // Function to render notifications
-    function renderNotifications(filter = 'all') {
-        const filteredNotifications = filter === 'all' 
-            ? notifications 
-            : notifications.filter(n => n.type === filter);
-
-        notificationsList.innerHTML = filteredNotifications.map(notification => `
-            <div class="notification-item" data-id="${notification.id}">
-                <div class="notification-content">
+    <h2>Notifications</h2>
+    
+    {% if notifications %}
+        <div class="notifications-list">
+            {% for notification in notifications %}
+                <div class="notification-item {% if not notification.read %}unread{% endif %}">
                     <div class="notification-icon">
-                        <i class="${notification.icon}"></i>
+                        <i class="fas {{ notification.icon }}"></i>
                     </div>
-                    <div class="notification-text">
-                        <h4>${notification.title}</h4>
-                        <p>${notification.message}</p>
-                        <span class="time-stamp">${notification.time}</span>
+                    <div class="notification-content">
+                        <p>{{ notification.message }}</p>
+                        <span class="notification-time">{{ notification.created_at }}</span>
                     </div>
+                    {% if not notification.read %}
+                        <form action="{{ url_for('mark_notification_read', notification_id=notification._id) }}" method="POST" class="mark-read-form">
+                            <button type="submit" class="mark-read-btn">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
-                <div class="notification-actions">
-                    <button class="delete-btn" onclick="deleteNotification(${notification.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-bell-slash"></i>
             </div>
-        `).join('');
-    }
-
-    // Filter button click handlers
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            button.classList.add('active');
-            // Filter notifications
-            renderNotifications(button.dataset.filter);
-        });
-    });
-
-    // Delete notification function
-    window.deleteNotification = function(id) {
-        const index = notifications.findIndex(n => n.id === id);
-        if (index > -1) {
-            notifications.splice(index, 1);
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-            renderNotifications(activeFilter);
-
-            // Show success message
-            showToast('Notification deleted successfully');
-        }
-    }
-
-    // Toast message function
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'toast success';
-        toast.innerHTML = `
-            <i class="fas fa-check-circle"></i>
-            <span>${message}</span>
-        `;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.remove();
-        }, 3000);
-    }
-
-    // Initial render
-    renderNotifications();
-});
-</script>
-{% endblock %}
+            <h3>No Notifications</h3>
+            <p>You're all caught up! Check back later for updates.</p>
+        </div>
+    {% endif %}
+</div>
