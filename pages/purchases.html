@@ -1,1 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="purchases-container">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+        <div class="summary-card">
+            <div class="card-icon">
+                <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="card-info">
+                <h3>${{ "%.2f"|format(total_donated) }}</h3>
+                <p>Total Donated</p>
+            </div>
+        </div>
+        <div class="summary-card">
+            <div class="card-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <div class="card-info">
+                <h3>{{ purchases|length }}</h3>
+                <p>Campaigns Supported</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase History -->
+    <div class="purchase-history">
+        <h2>Purchase History</h2>
+        
+        {% if purchases %}
+            <div class="purchases-list">
+                {% for purchase in purchases %}
+                <div class="purchase-card">
+                    <div class="purchase-header">
+                        <div class="purchase-main-info">
+                            <h3>{{ purchase.campaign_title }}</h3>
+                            <span class="receipt-id">Receipt ID: {{ purchase.receipt_id }}</span>
+                        </div>
+                        <div class="purchase-amount">${{ "%.2f"|format(purchase.amount) }}</div>
+                    </div>
+                    
+                    <div class="purchase-details">
+                        <div class="detail-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>{{ purchase.date }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-user"></i>
+                            <span>{{ purchase.recipient }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tag"></i>
+                            <span>{{ purchase.category|title }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-heart"></i>
+                            <span>{{ purchase.impact }}</span>
+                        </div>
+                    </div>
+
+                    <div class="purchase-actions">
+                        <button class="action-btn">
+                            <i class="fas fa-download"></i>
+                            Download Receipt
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-share-alt"></i>
+                            Share Impact
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>No Purchase History Yet</h3>
+                <p>Start making a difference by supporting campaigns that matter to you.</p>
+                <a href="{{ url_for('campaigns') }}" class="cta-button">
+                    <i class="fas fa-search"></i>
+                    Explore Campaigns
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
 
