@@ -221,3 +221,116 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const notificationsList = document.querySelector('.notifications-list');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    // Sample notifications data
+    const notifications = [
+        {
+            id: 1,
+            type: 'campaigns',
+            icon: 'fas fa-bullhorn',
+            title: 'Campaign Update',
+            message: 'Your campaign "New Laptop" has reached 75% of its goal!',
+            time: '2 hours ago'
+        },
+        {
+            id: 2,
+            type: 'help',
+            icon: 'fas fa-hand-holding-heart',
+            title: 'Help Request',
+            message: 'Sarah needs help with €200 for an iPhone repair',
+            time: '3 hours ago'
+        },
+        {
+            id: 3,
+            type: 'system',
+            icon: 'fas fa-cog',
+            title: 'System Update',
+            message: 'Your account has been verified successfully',
+            time: '1 day ago'
+        }
+    ];
+
+    // Function to render notifications
+    function renderNotifications(filter = 'all') {
+        const filteredNotifications = filter === 'all' 
+            ? notifications 
+            : notifications.filter(n => n.type === filter);
+
+        notificationsList.innerHTML = filteredNotifications.map(notification => `
+            <div class="notification-item" data-id="${notification.id}">
+                <div class="notification-content">
+                    <div class="notification-icon">
+                        <i class="${notification.icon}"></i>
+                    </div>
+                    <div class="notification-text">
+                        <h4>${notification.title}</h4>
+                        <p>${notification.message}</p>
+                        <span class="time-stamp">${notification.time}</span>
+                    </div>
+                </div>
+                <div class="notification-actions">
+                    <button class="delete-btn" onclick="deleteNotification(${notification.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Filter button click handlers
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+            // Filter notifications
+            renderNotifications(button.dataset.filter);
+        });
+    });
+
+    // Delete notification function
+    window.deleteNotification = function(id) {
+        const index = notifications.findIndex(n => n.id === id);
+        if (index > -1) {
+            notifications.splice(index, 1);
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            renderNotifications(activeFilter);
+
+            // Show success message
+            showToast('Notification deleted successfully');
+        }
+    }
+
+    // Toast message function
+    function showToast(message) {
+        // Remove any existing toasts
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(toast);
+
+        // Remove toast after animation completes
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+    // Initial render
+    renderNotifications();
+});
+</script>
+{% endblock %}
