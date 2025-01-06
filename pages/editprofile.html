@@ -82,3 +82,198 @@
         </form>
     </div>
 </div>
+
+<style>
+    .edit-profile-page {
+        padding: 1rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .back-section {
+        margin-bottom: 2rem;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--light);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 8px;
+        width: fit-content;
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        background: var(--deep-orange);
+        transform: translateX(-5px);
+    }
+
+    .edit-container {
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 15px;
+        padding: 2rem;
+    }
+
+    .edit-container h2 {
+        margin-bottom: 2rem;
+        color: var(--light);
+    }
+
+    .profile-picture-section {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .current-picture {
+        width: 100px;
+        height: 100px;
+        background: var(--deep-orange);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+    }
+
+    .upload-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.5rem;
+        background: var(--deep-orange);
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .upload-btn:hover {
+        background: var(--accent);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--gray);
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        background: rgba(44, 62, 80, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--light);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--deep-orange);
+        background: rgba(44, 62, 80, 0.7);
+    }
+
+    .username-input {
+        position: relative;
+    }
+
+    .at-symbol {
+        position: absolute;
+        left: 0.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+    }
+
+    .username-input input {
+        padding-left: 2rem;
+    }
+
+    .character-count {
+        display: block;
+        text-align: right;
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-top: 0.3rem;
+    }
+
+    .form-section {
+        margin-top: 2rem;
+    }
+
+    .form-section h3 {
+        color: var(--light);
+        margin-bottom: 1rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: flex-end;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .cancel-btn {
+        background: rgba(44, 62, 80, 0.5);
+        color: var(--light);
+    }
+
+    .cancel-btn:hover {
+        background: rgba(44, 62, 80, 0.7);
+    }
+
+    .save-btn {
+        background: var(--deep-orange);
+        color: white;
+    }
+
+    .save-btn:hover {
+        background: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .edit-container {
+            padding: 1rem;
+        }
+
+        .profile-picture-section {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            width: 100%;
+        }
+    }
+</style>
