@@ -309,3 +309,131 @@
         justify-content: center;
         gap: 0.5rem;
     }
+
+    .complete-payment-btn:hover {
+        background: var(--deep-orange);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .payment-tabs {
+            flex-direction: column;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .payment-message {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        text-align: center;
+        margin: 1rem 0;
+        padding: 0.5rem;
+        background: rgba(231, 76, 60, 0.1);
+        border-radius: 8px;
+    }
+
+    #payment-element {
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+    }
+
+    .campaign-creator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--gray);
+    }
+
+    .creator-name {
+        color: var(--deep-orange);
+    }
+
+    #cardForm {
+        background: rgba(44, 62, 80, 0.3);
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    #payment-element {
+        min-height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .hidden {
+        display: none !important;
+    }
+</style>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+let elements;
+let paymentElement;
+
+// Initialize Stripe
+const stripe = Stripe('{{ stripe_public_key }}');
+console.log('Stripe initialized with key:', '{{ stripe_public_key }}');
+
+// Handle form display
+async function showPaymentForm() {
+    console.log('Showing payment form');
+    const cardForm = document.getElementById('cardForm');
+    cardForm.style.display = 'block';
+    cardForm.classList.remove('hidden');
+    
+    try {
+        // Create payment intent
+        const response = await fetch("/create-payment-intent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: 10 }) // Default amount
+        });
+        
+        const data = await response.json();
+        console.log('Payment Intent created:', data);
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        // Create Elements instance
+        elements = stripe.elements({
+            clientSecret: data.clientSecret,
+            appearance: {
+                theme: 'night',
+                variables: {
+                    colorPrimary: '#d35400',
+                    colorBackground: 'rgba(44, 62, 80, 0.3)',
+                    colorText: '#ecf0f1'
+                }
+            }
+        });
+
+        // Create and mount the Payment Element
+        paymentElement = elements.create('payment');
+        console.log('Payment element created');
+        await paymentElement.mount('#payment-element');
+        console.log('Payment element mounted');
+        
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('payment-message').textContent = 'Error loading payment form: ' + error.message;
+        document.getElementById('payment-message').classList.remove('hidden');
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded - Initializing payment form');
+    showPaymentForm();
+});
+</script>
+{% endblock %} 
