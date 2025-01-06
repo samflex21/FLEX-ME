@@ -41,6 +41,12 @@
                 Finished Campaigns
                 <div class="tab-indicator"></div>
             </button>
+            {% if is_owner %}
+                <button class="tab-btn" data-tab="supported">
+                    Campaigns Supported
+                    <div class="tab-indicator"></div>
+                </button>
+            {% endif %}
         </div>
     </div>
 
@@ -81,8 +87,56 @@
                 <!-- Add more finished campaign items as needed -->
             </div>
         </div>
+
+        <!-- Campaigns Supported Tab -->
+        {% if is_owner %}
+            <div class="tab-pane" id="supported-campaigns">
+                <div class="campaign-list">
+                    {% if purchases %}
+                        {% for purchase in purchases %}
+                            <div class="campaign-item supported">
+                                <div class="campaign-info">
+                                    <div class="campaign-header">
+                                        <span class="category-tag">{{ purchase.category }}</span>
+                                        <h3>{{ purchase.campaign_title }}</h3>
+                                        <p>{{ purchase.impact }}</p>
+                                    </div>
+                                    <div class="support-details">
+                                        <div class="amount-supported">
+                                            <span class="label">Amount Supported</span>
+                                            <span class="value">${{ "{:,.2f}".format(purchase.amount) }}</span>
+                                        </div>
+                                        <div class="support-date">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>{{ purchase.date }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="campaign-meta">
+                                        <span><i class="fas fa-receipt"></i> {{ purchase.receipt_id }}</span>
+                                        <span><i class="fas fa-heart"></i> Made an Impact</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3>No Supported Campaigns Yet</h3>
+                            <p>Start making a difference by supporting campaigns that matter to you.</p>
+                            <a href="{{ url_for('campaigns') }}" class="browse-btn">
+                                <i class="fas fa-search"></i>
+                                Explore Campaigns
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
+
 <style>
     .profile-page {
         padding: 1rem;
@@ -325,6 +379,99 @@
         color: var(--success);
     }
 
+    .campaign-item.supported {
+        background: rgba(44, 62, 80, 0.3);
+    }
+
+    .campaign-header {
+        margin-bottom: 1rem;
+    }
+
+    .support-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1rem 0;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .amount-supported {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .amount-supported .label {
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    .amount-supported .value {
+        color: var(--deep-orange);
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .support-date {
+        color: var(--gray);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 12px;
+    }
+
+    .empty-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(211, 84, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+    }
+
+    .empty-icon i {
+        font-size: 2.5rem;
+        color: var(--deep-orange);
+    }
+
+    .empty-state h3 {
+        color: var(--light);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        color: var(--gray);
+        margin-bottom: 2rem;
+    }
+
+    .browse-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem 2rem;
+        background: var(--deep-orange);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .browse-btn:hover {
+        background: var(--accent);
+        transform: translateY(-2px);
+    }
+
     @media (max-width: 768px) {
         .profile-header {
             padding: 1rem;
@@ -377,6 +524,7 @@
         }
     }
 </style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tabButtons = document.querySelectorAll('.tab-btn');
