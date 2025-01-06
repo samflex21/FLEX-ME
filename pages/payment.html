@@ -1,1 +1,100 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="payment-container">
+    <!-- Campaign Summary -->
+    <div class="campaign-summary">
+        <h2>Supporting: {{ campaign.title }}</h2>
+        <div class="campaign-info">
+            <span class="campaign-creator">
+                <i class="fas fa-user"></i>
+                Created by <span class="creator-name">{{ campaign.name }}</span>
+            </span>
+            <span class="campaign-progress">{{ campaign.progress }}% funded</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" style="width: {{ campaign.progress }}%"></div>
+        </div>
+        <div class="amount-info">
+            <span>€{{ '{:,.2f}'.format(campaign.amount_raised) }} raised</span>
+            <span>of €{{ '{:,.2f}'.format(campaign.goal_amount) }} goal</span>
+        </div>
+    </div>
+
+    <!-- Add this temporarily for debugging -->
+    {% if debug %}
+    <div style="background: #333; color: white; padding: 10px; margin: 10px 0; border-radius: 5px;">
+        <h4>Debug Info:</h4>
+        <pre>
+        Campaign Title: {{ campaign.title }}
+        Creator Name: {{ campaign.name }}
+        Amount Raised: {{ campaign.amount_raised }}
+        Goal Amount: {{ campaign.goal_amount }}
+        Progress: {{ campaign.progress }}%
+        </pre>
+    </div>
+    {% endif %}
+
+    <!-- Payment Form -->
+    <form method="POST" action="{{ url_for('donate', campaign_id=campaign.id) }}" id="paymentForm">
+        <!-- Amount Selection -->
+        <div class="amount-section">
+            <h3>Select Amount</h3>
+            <div class="amount-options">
+                <button type="button" class="amount-btn" data-amount="10">€10</button>
+                <button type="button" class="amount-btn" data-amount="25">€25</button>
+                <button type="button" class="amount-btn" data-amount="50">€50</button>
+                <button type="button" class="amount-btn" data-amount="100">€100</button>
+                <div class="custom-amount">
+                    <input type="number" name="amount" id="customAmount" placeholder="Custom Amount" min="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+            <h3>Payment Method</h3>
+            <div class="payment-tabs">
+                <button type="button" class="payment-tab active" data-method="card" onclick="switchPaymentMethod(event, 'card')">
+                    <i class="fas fa-credit-card"></i>
+                    Credit Card
+                </button>
+                <button type="button" class="payment-tab" data-method="paypal" onclick="switchPaymentMethod(event, 'paypal')">
+                    <i class="fab fa-paypal"></i>
+                    PayPal
+                </button>
+                <button type="button" class="payment-tab" data-method="googlepay" onclick="switchPaymentMethod(event, 'googlepay')">
+                    <i class="fab fa-google-pay"></i>
+                    Google Pay
+                </button>
+            </div>
+
+            <!-- Add this script -->
+            <script>
+            function switchPaymentMethod(event, method) {
+                event.preventDefault();
+                
+                document.querySelectorAll('.payment-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.payment-form-section').forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                event.currentTarget.classList.add('active');
+                const formSection = document.getElementById(method + 'Form');
+                formSection.classList.remove('hidden');
+                
+                // Reinitialize Stripe Elements if switching to card payment
+                if (method === 'card' && !paymentElement) {
+                    initialize();
+                }
+            }
+
+            // Prevent form submission when clicking payment method tabs
+            document.querySelectorAll('.payment-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                });
+            });
+            </script>
