@@ -1,560 +1,973 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="dashboard-container">
-    <!-- Stats Overview -->
-    <div class="stats-overview">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-coins"></i>
-            </div>
-            <div class="stat-info">
-                <h3>€1,000</h3>
-                <p>Help Limit</p>
-            </div>
+<!-- Stats Overview with enhanced styling -->
+<div class="stats-overview">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-coins"></i>
         </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-hand-holding-heart"></i>
-            </div>
-            <div class="stat-info">
-                <h3>15</h3>
-                <p>People Helped</p>
+        <div class="stat-info">
+            <h3 id="supportQuota">15%</h3>
+            <p>Support Quota</p>
+            <div class="trust-badge" id="userLevel">
+                <i class="fas fa-award"></i>
+                <span>Gold</span>
             </div>
         </div>
     </div>
 
-    <!-- Main Grid -->
-    <div class="main-grid">
-        <!-- Campaign Section -->
-        <div class="campaign-section">
-            <div class="section-header">
-                <h2>My Active Campaigns</h2>
-                <a href="{{ url_for('new_campaign') }}" class="help-btn">
-                    <i class="fas fa-plus"></i> New Campaign
-                </a>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <div class="stat-info">
+            <h3 id="peopleHelpedCount">0</h3>
+            <p>People Helped</p>
+        </div>
+    </div>
+</div>
+
+<!-- Main Grid -->
+<div class="main-grid">
+    <div class="campaign-section">
+        <div class="section-header">
+            <div class="header-left">
+                <h2>Live Campaigns</h2>
+                <span class="live-indicator">Live</span>
             </div>
-            <div class="campaign-cards">
-                <!-- Campaign cards will be dynamically added here -->
+            <div class="feed-filters">
+                <button class="filter-btn active" data-filter="for-you">For You</button>
             </div>
         </div>
 
-        <!-- Live Requests -->
-        <div class="live-requests">
-            <div class="section-header">
-                <h2>Live Help Requests</h2>
-                <span class="live-indicator">Live</span>
+        <div class="help-requests-feed">
+            {% for request in help_requests %}
+            <div class="request-card">
+                <div class="user-info">
+                    <div class="user-info-left">
+                        <div class="user-avatar">{{ request.user_initial }}</div>
+                        <div class="user-details">
+                            <h4>{{ request.name }} <span class="dot">•</span> <span class="timestamp">{{ request.time }}</span></h4>
+                        </div>
+                    </div>
+                </div>
+                <p class="request-text">{{ request.need }}</p>
+                
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: {{ request.progress }}%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span class="amount-raised">${{ request.amount_raised }} raised</span>
+                        <span class="goal-amount">of ${{ request.goal_amount }}</span>
+                    </div>
+                </div>
+
+                <div class="request-actions">
+                    <div class="left-actions">
+                        <a href="{{ url_for('campaign_detail', campaign_id=request.id) }}" class="action-btn view-btn small">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </a>
+                    </div>
+                    <div class="right-actions">
+                        <a href="{{ url_for('payment', campaign_id=request.id) }}" class="help-btn">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            Help
+                        </a>
+                        <button class="action-btn share-btn">
+                            <i class="fas fa-share-alt"></i>
+                            Share
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div id="liveRequests">
-                <!-- Live requests will be dynamically added here -->
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
 
 <style>
-    .dashboard-container {
-        padding: 0;
-        max-width: none;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+/* Enhanced Stats Overview Styles */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
 
-    /* Stats Overview Styles */
+.stat-card {
+    background: rgba(44, 62, 80, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(44, 62, 80, 0.5);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--deep-orange);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    transform: rotate(-10deg);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-icon {
+    transform: rotate(0deg);
+}
+
+.stat-info h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--light);
+    margin-bottom: 0.3rem;
+}
+
+.stat-info p {
+    color: var(--gray);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
     .stats-overview {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-        padding: 2.5rem;
+        grid-template-columns: 1fr;
     }
-
+    
     .stat-card {
-        background: rgba(44, 62, 80, 0.3);
-        padding: 2rem;
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        transition: all 0.3s ease;
+        padding: 1.2rem;
     }
-
-    .stat-card:hover {
-        transform: translateY(-5px);
-        background: rgba(44, 62, 80, 0.5);
-    }
-
+    
     .stat-icon {
-        width: 70px;
-        height: 70px;
-        background: var(--deep-orange);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        color: white;
-        transition: all 0.3s ease;
-    }
-
-    .stat-card:hover .stat-icon {
-        transform: none;
-    }
-
-    .stat-info h3 {
-        font-size: 2.2rem;
-        margin-bottom: 0.3rem;
-        color: var(--light);
-    }
-
-    .stat-info p {
-        color: var(--gray);
-        font-size: 1.1rem;
-    }
-
-    /* Main Grid Styles */
-    .main-grid {
-        display: grid;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 2.5rem;
-        margin-top: 2rem;
-        flex: 1;
-        padding: 2.5rem;
-    }
-
-    /* Campaign Section Styles */
-    .campaign-section {
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 15px;
-        padding: 1.5rem;
-        height: 600px;
-        overflow-y: auto;
-    }
-
-    .campaign-section::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .campaign-section::-webkit-scrollbar-track {
-        background: rgba(44, 62, 80, 0.1);
-        border-radius: 4px;
-    }
-
-    .campaign-section::-webkit-scrollbar-thumb {
-        background: var(--deep-orange);
-        border-radius: 4px;
-    }
-
-    .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .section-header h2 {
-        font-size: 1.5rem;
-        color: var(--light);
-    }
-
-    .help-btn {
-        background: var(--deep-orange);
-        color: white;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 20px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        transition: all 0.3s ease;
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-
-    .help-btn:hover {
-        transform: translateY(-2px);
-        opacity: 0.9;
-    }
-
-    /* Live Requests Styles */
-    .live-requests {
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 15px;
-        padding: 1.5rem;
-        height: 600px;
-        overflow: hidden;
-    }
-
-    .live-indicator {
-        color: var(--success);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-    }
-
-    .live-indicator::before {
-        content: "●";
-        animation: pulse 2s infinite;
-    }
-
-    .request-card {
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 12px;
-        padding: 2rem;
-        margin-bottom: 1.5rem;
-        transition: all 0.3s ease;
-    }
-
-    .request-card:hover {
-        transform: translateY(-3px);
-        background: rgba(44, 62, 80, 0.5);
-    }
-
-    .request-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .user-avatar {
         width: 50px;
         height: 50px;
-        background: var(--deep-orange);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
         font-size: 1.2rem;
     }
-
-    .user-details h4 {
-        color: var(--light);
-        margin-bottom: 0.2rem;
-        font-size: 1.2rem;
+    
+    .stat-info h3 {
+        font-size: 1.5rem;
     }
+}
 
-    .user-details p {
-        color: var(--gray);
-        font-size: 1rem;
+/* Updated styles */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.live-indicator {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.live-indicator::before {
+    content: "●";
+    animation: pulse 2s infinite;
+}
+
+.request-card {
+    background: rgba(44, 62, 80, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--deep-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.user-details h4 {
+    color: var(--light);
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+}
+
+.timestamp {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.request-text {
+    color: var(--light);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.request-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.left-actions {
+    display: flex;
+    align-items: center;
+}
+
+.right-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    color: var(--light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .request-actions {
+        flex-direction: column;
+        gap: 1rem;
     }
-
-    .amount-needed {
-        background: rgba(255, 53, 122, 0.2);
-        padding: 0.8rem 1.5rem;
-        border-radius: 20px;
-        color: var(--deep-orange);
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-
-    .progress {
+    
+    .right-actions {
         width: 100%;
-        height: 8px;
-        background: rgba(236, 240, 241, 0.1);
-        border-radius: 3px;
-        margin: 1.5rem 0;
-        overflow: hidden;
-    }
-
-    .progress-bar {
-        height: 100%;
-        background: var(--deep-orange);
-        border-radius: 3px;
-        transition: width 0.3s ease;
-    }
-
-    .request-footer {
-        display: flex;
         justify-content: space-between;
-        align-items: center;
     }
-
-    .time-left {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--gray);
-        font-size: 0.9rem;
+    
+    .left-actions {
+        width: 100%;
     }
-
-    @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.3; }
-        100% { opacity: 1; }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
     }
+}
 
-    /* Responsive Design */
-    @media (max-width: 1200px) {
-        .main-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .campaign-section,
-        .live-requests {
-            height: auto;
-            max-height: 600px;
-        }
+.share-btn {
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.share-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.help-btn {
+    background: var(--accent);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.help-btn:hover {
+    background: var(--deep-orange);
+    transform: translateY(-2px);
+    color: white;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* Add these styles for the contribute button */
+.contribute-btn {
+    background: var(--deep-orange) !important;
+    color: white !important;
+}
+
+.contribute-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.progress-container {
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress {
+    height: 100%;
+    background: var(--deep-orange);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* Updated filter button styles */
+.feed-filters {
+    display: flex;
+    gap: 1rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--light);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--light);
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Add these styles for smooth transitions */
+#liveRequests {
+    transition: opacity 0.3s ease;
+}
+
+.request-card {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
-
-    @media (max-width: 768px) {
-        .dashboard-container {
-            padding: 1rem;
-        }
-
-        .stats-overview {
-            grid-template-columns: 1fr;
-        }
-
-        .stat-card {
-            padding: 1rem;
-        }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
 
-    #liveRequests {
-        max-height: 500px;
-        overflow-y: hidden;
-        position: relative;
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--secondary);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    padding: 2rem;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--deep-orange);
+}
+
+.modal-body {
+    color: var(--light);
+}
+
+.modal-body p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
     }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Add styles for user level */
+.user-level {
+    font-size: 0.85rem;
+    padding: 0.2rem 0.8rem;
+    background: var(--deep-orange);
+    border-radius: 12px;
+    color: white;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+/* Update stat info styles */
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-info h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--light);
+    margin-bottom: 0.2rem;
+}
+
+/* Trust Badge Styles from userprofile */
+.trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Trust Badge Colors */
+.trust-badge.bronze {
+    background: #cd7f32;
+    color: white;
+}
+
+.trust-badge.silver {
+    background: #c0c0c0;
+    color: #2c3e50;
+}
+
+.trust-badge.gold {
+    background: #ffd700;
+    color: #2c3e50;
+}
+
+.trust-badge.platinum {
+    background: #e5e4e2;
+    color: #2c3e50;
+}
+
+.trust-badge.diamond {
+    background: linear-gradient(45deg, #b9f2ff, #a3e4ff);
+    color: #2c3e50;
+}
+
+/* Updated User Info Styles */
+.request-card .user-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.8rem;
+}
+
+.request-card .user-info-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.request-card .user-avatar {
+    width: 45px;
+    height: 45px;
+    background: var(--deep-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.request-card .user-details h4 {
+    color: var(--light);
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.request-card .dot {
+    color: var(--gray);
+    font-size: 0.8rem;
+}
+
+.request-card .timestamp {
+    color: var(--gray);
+    font-size: 0.9rem;
+    font-weight: normal;
+}
 </style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Sample live requests data
-    const liveRequests = [
-        {
-            name: "Sarah Johnson",
-            item: "iPhone 15",
-            amount: 200,
-            timeLeft: "10 minutes",
-            progress: 80,
-            avatar: "S"
-        },
-        {
-            name: "Mike Smith",
-            item: "Gaming Laptop",
-            amount: 300,
-            timeLeft: "15 minutes",
-            progress: 70,
-            avatar: "M"
-        }
-    ];
+    // Live Requests Handler
+    function initializeLiveRequests() {
+        const liveRequests = [
+            {
+                id: 1,
+                name: "Sarah Johnson",
+                item: "Medical Emergency",
+                amount: 200,
+                timeLeft: "10 minutes",
+                progress: 80,
+                avatar: "S"
+            },
+            {
+                id: 2,
+                name: "Mike Smith",
+                item: "Education Support",
+                amount: 300,
+                timeLeft: "15 minutes",
+                progress: 70,
+                avatar: "M"
+            },
+            {
+                id: 3,
+                name: "Emma Davis",
+                item: "Housing Assistance",
+                amount: 150,
+                timeLeft: "5 minutes",
+                progress: 90,
+                avatar: "E"
+            },
+            {
+                id: 4,
+                name: "James Wilson",
+                item: "Business Recovery",
+                amount: 250,
+                timeLeft: "20 minutes",
+                progress: 60,
+                avatar: "J"
+            }
+        ];
 
-    function renderLiveRequests() {
-        const container = document.getElementById('liveRequests');
-        container.innerHTML = liveRequests.map(request => `
-            <div class="request-card">
-                <div class="request-header">
+        const requestsContainer = document.getElementById('liveRequests');
+        
+        function createRequestCards(requests) {
+            return requests.map(request => `
+                <div class="request-card">
                     <div class="user-info">
-                        <div class="user-avatar">${request.avatar}</div>
-                        <div class="user-details">
-                            <h4>${request.name}</h4>
-                            <p>${request.item}</p>
+                        <div class="user-info-left">
+                            <div class="user-avatar">${request.avatar}</div>
+                            <div class="user-details">
+                                <h4>${request.name} <span class="dot">•</span> <span class="timestamp">${request.timeLeft} ago</span></h4>
+                            </div>
                         </div>
                     </div>
-                    <div class="amount-needed">
-                        <span>Needs €${request.amount}</span>
+                    <p class="request-text">${request.item}</p>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: ${request.progress}%"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <span class="amount-raised">$${request.amount} raised</span>
+                            <span class="goal-amount">of $${request.amount * 2}</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <div class="left-actions">
+                            <a href="/campaign/${request.id}" class="action-btn view-btn small">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </a>
+                        </div>
+                        <div class="right-actions">
+                            <a href="/payment/${request.id}" class="help-btn">
+                                <i class="fas fa-hand-holding-heart"></i>
+                                Help
+                            </a>
+                            <button class="action-btn share-btn">
+                                <i class="fas fa-share-alt"></i>
+                                Share
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="progress">
-                    <div class="progress-bar" style="width: ${request.progress}%"></div>
+            `).join('');
+        }
+
+        // Initial render
+        requestsContainer.innerHTML = createRequestCards(liveRequests.slice(0, 3));
+
+        // Update every 8 seconds
+        setInterval(() => {
+            const firstRequest = liveRequests.shift();
+            liveRequests.push(firstRequest);
+            const newCards = createRequestCards(liveRequests.slice(0, 3));
+            requestsContainer.style.opacity = '0';
+            setTimeout(() => {
+                requestsContainer.innerHTML = newCards;
+                requestsContainer.style.opacity = '1';
+            }, 300);
+        }, 8000);
+    }
+
+    // Initialize features
+    initializeLiveRequests();
+    
+    // Existing filter buttons logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filterType = btn.dataset.filter;
+            // Implement filtering logic here
+        });
+    });
+
+    // Add modal functionality
+    window.showRequestDetails = function(request) {
+        const modal = document.getElementById('requestModal');
+        
+        // Update modal content
+        document.getElementById('modalAvatar').textContent = request.avatar;
+        document.getElementById('modalName').textContent = request.name;
+        document.getElementById('modalTime').textContent = request.timeLeft + ' ago';
+        document.getElementById('modalDescription').textContent = request.item;
+        document.getElementById('modalProgress').style.width = request.progress + '%';
+        document.getElementById('modalAmountRaised').textContent = '$' + request.amount + ' raised';
+        document.getElementById('modalGoalAmount').textContent = 'of $' + (request.amount * 2);
+        
+        // Show modal
+        modal.style.display = 'flex';
+    }
+
+    // Close modal when clicking the close button or outside the modal
+    const modal = document.getElementById('requestModal');
+    const closeBtn = modal.querySelector('.close-btn');
+    
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Get the counter element
+    const peopleHelpedCounter = document.getElementById('peopleHelpedCount');
+    
+    // Get stored count from localStorage or start at 0
+    let peopleHelpedCount = parseInt(localStorage.getItem('peopleHelpedCount')) || 0;
+    peopleHelpedCounter.textContent = peopleHelpedCount;
+
+    function createRequestCards(requests) {
+        return requests.map(request => `
+            <div class="request-card">
+                <div class="user-info">
+                    <div class="user-info-left">
+                        <div class="user-avatar">${request.avatar}</div>
+                        <div class="user-details">
+                            <h4>${request.name} <span class="dot">•</span> <span class="timestamp">${request.timeLeft} ago</span></h4>
+                        </div>
+                    </div>
                 </div>
-                <div class="request-footer">
-                    <span class="time-left">
-                        <i class="fas fa-clock"></i> ${request.timeLeft}
-                    </span>
-                    <button class="help-btn">
-                        <i class="fas fa-hand-holding-heart"></i> Help Now
-                    </button>
+                <p class="request-text">${request.item}</p>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${request.progress}%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span class="amount-raised">$${request.amount} raised</span>
+                        <span class="goal-amount">of $${request.amount * 2}</span>
+                    </div>
+                </div>
+                <div class="request-actions">
+                    <div class="left-actions">
+                        <a href="/campaign/${request.id}" class="action-btn view-btn small">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </a>
+                    </div>
+                    <div class="right-actions">
+                        <a href="/payment/${request.id}" class="help-btn">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            Help
+                        </a>
+                        <button class="action-btn share-btn">
+                            <i class="fas fa-share-alt"></i>
+                            Share
+                        </button>
+                    </div>
                 </div>
             </div>
         `).join('');
     }
 
-    // Initial render
-    renderLiveRequests();
+    // Support quota levels
+    const supportLevels = {
+        BRONZE: { name: 'Bronze', quota: 5, description: 'New User' },
+        SILVER: { name: 'Silver', quota: 10, description: 'Basic User' },
+        GOLD: { name: 'Gold', quota: 15, description: 'Regular User' },
+        PLATINUM: { name: 'Platinum', quota: 20, description: 'Trusted User' },
+        DIAMOND: { name: 'Diamond', quota: 25, description: 'Advanced User/Business' }
+    };
 
-    // Update every 8 seconds
-    setInterval(renderLiveRequests, 8000);
-});
+    // Mock user data - this would normally come from your database
+    const mockUserData = {
+        level: 'GOLD',  // Can be BRONZE, SILVER, GOLD, PLATINUM, or DIAMOND
+        helpCount: 0
+    };
 
-function checkCampaignGoal(campaignId, currentAmount, goalAmount) {
-    if (currentAmount >= goalAmount) {
-        showGoalReachedModal(campaignId);
+    // Function to update support quota display
+    function updateSupportQuota() {
+        const userLevel = supportLevels[mockUserData.level];
+        const quotaElement = document.getElementById('supportQuota');
+        const levelElement = document.getElementById('userLevel');
+        
+        quotaElement.textContent = `${userLevel.quota}%`;
+        
+        // Remove all existing classes first
+        levelElement.className = 'trust-badge';
+        // Add the appropriate level class
+        levelElement.classList.add(userLevel.name.toLowerCase());
+        
+        levelElement.innerHTML = `
+            <i class="fas fa-award"></i>
+            <span>${userLevel.name} - ${userLevel.description}</span>
+        `;
     }
-}
 
-function showGoalReachedModal(campaignId) {
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Campaign Goal Reached! 🎉</h2>
-                <button class="close-btn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Congratulations! Your campaign has reached its goal.</p>
-                <p>Would you like to continue with your purchase or return to the dashboard?</p>
-                <div class="modal-buttons">
-                    <button class="continue-btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        Continue to Purchase
-                    </button>
-                    <button class="dashboard-btn">
-                        <i class="fas fa-home"></i>
-                        Back to Dashboard
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
+    // Initialize support quota
+    updateSupportQuota();
 
-    document.body.appendChild(modal);
+    // Update the increment people helped function to check for level changes
+    window.incrementPeopleHelped = function(name) {
+        peopleHelpedCount++;
+        peopleHelpedCounter.textContent = peopleHelpedCount;
+        
+        // Update mock user data
+        mockUserData.helpCount = peopleHelpedCount;
 
-    // Add styles for the modal
+        // Check for level upgrades
+        if (peopleHelpedCount >= 50) {
+            mockUserData.level = 'DIAMOND';
+        } else if (peopleHelpedCount >= 30) {
+            mockUserData.level = 'PLATINUM';
+        } else if (peopleHelpedCount >= 20) {
+            mockUserData.level = 'GOLD';
+        } else if (peopleHelpedCount >= 10) {
+            mockUserData.level = 'SILVER';
+        }
+
+        // Update the support quota display
+        updateSupportQuota();
+        
+        // Save to localStorage
+        localStorage.setItem('peopleHelpedCount', peopleHelpedCount);
+        localStorage.setItem('userLevel', mockUserData.level);
+        
+        // Show success message
+        showSuccessMessage(`You've helped ${name}!`);
+    }
+
+    // Load saved level from localStorage
+    const savedLevel = localStorage.getItem('userLevel');
+    if (savedLevel) {
+        mockUserData.level = savedLevel;
+        updateSupportQuota();
+    }
+
+    // Success message function
+    function showSuccessMessage(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast success';
+        toast.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(toast);
+
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+    // Add toast styles
     const style = document.createElement('style');
     style.textContent = `
-        .modal {
+        .toast {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: var(--secondary);
-            border-radius: 15px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 500px;
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-body {
-            text-align: center;
-        }
-
-        .modal-body p {
-            margin-bottom: 1.5rem;
-            color: var(--light);
-            font-size: 1.1rem;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .continue-btn, .dashboard-btn {
+            bottom: 20px;
+            right: 20px;
+            background: var(--deep-orange);
+            color: white;
             padding: 1rem 1.5rem;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s;
+            z-index: 1000;
         }
 
-        .continue-btn {
-            background: var(--deep-orange);
-            color: white;
-        }
-
-        .dashboard-btn {
-            background: rgba(44, 62, 80, 0.3);
-            color: var(--light);
-        }
-
-        .continue-btn:hover, .dashboard-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        @keyframes modalSlideIn {
+        @keyframes slideIn {
             from {
-                transform: translateY(-50px);
+                transform: translateX(100%);
                 opacity: 0;
             }
             to {
-                transform: translateY(0);
+                transform: translateX(0);
                 opacity: 1;
             }
         }
-    `;
 
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
     document.head.appendChild(style);
 
-    // Add event listeners
-    const closeBtn = modal.querySelector('.close-btn');
-    const continueBtn = modal.querySelector('.continue-btn');
-    const dashboardBtn = modal.querySelector('.dashboard-btn');
+    // Add this to your existing JavaScript
+    function formatTimeAgo(time) {
+        // This is a simple example - you'll need to adjust based on your actual time format
+        const timeUnits = {
+            'minutes ago': 'm',
+            'hours ago': 'h',
+            'days ago': 'd',
+            'weeks ago': 'w'
+        };
+        
+        for (let [unit, short] of Object.entries(timeUnits)) {
+            if (time.includes(unit)) {
+                return time.replace(unit, short);
+            }
+        }
+        return time;
+    }
 
-    closeBtn.onclick = () => modal.remove();
-    
-    continueBtn.onclick = () => {
-        window.location.href = `/campaigns/${campaignId}/purchase`;
-    };
-    
-    dashboardBtn.onclick = () => {
-        modal.remove();
-        // Optionally refresh dashboard
-        window.location.reload();
-    };
-
-    // Click outside to close
-    modal.onclick = (e) => {
-        if (e.target === modal) modal.remove();
-    };
-}
-
-// Example usage in your campaign update logic
-function updateCampaignProgress(campaignId, currentAmount, goalAmount) {
-    // Update progress bar logic here
-    
-    // Check if goal is reached
-    checkCampaignGoal(campaignId, currentAmount, goalAmount);
-}
+    // Update all timestamps on page load
+    const timestamps = document.querySelectorAll('.timestamp');
+    timestamps.forEach(timestamp => {
+        timestamp.textContent = formatTimeAgo(timestamp.textContent);
+    });
+});
 </script>
 {% endblock %} 
