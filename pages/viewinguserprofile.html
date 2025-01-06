@@ -1,1 +1,41 @@
+{% extends "base.html" %}
 
+{% block title %}{{ user.username }}'s Profile - Lifeline{% endblock %}
+
+{% block content %}
+{% if debug %}
+<div style="background: rgba(0,0,0,0.8); color: white; padding: 10px; margin: 10px 0; border-radius: 5px;">
+    <p>Debug Info:</p>
+    <p>User ID: {{ user._id }}</p>
+    <p>Number of campaigns: {{ campaigns|length }}</p>
+    <p>Trust Level: {{ user.trust_level }}</p>
+</div>
+{% endif %}
+
+<div class="profile-page">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-top-section">
+            <div class="profile-main-content">
+                <div class="profile-avatar-large" {% if user.has_profile_picture %}style="background-image: url('{{ url_for('get_profile_picture', user_id=user._id, t=current_time) }}'); background-size: cover; background-position: center;"{% endif %}>
+                    {% if not user.has_profile_picture %}
+                        {{ user.first_name[0] if user.first_name else 'U' }}
+                    {% endif %}
+                </div>
+                <div class="profile-name-section">
+                    <div class="name-and-badge">
+                        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                        <div class="trust-badge" id="userLevel">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <span class="username">@{{ user.username }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="profile-info-bar">
+            <div class="bio-section">
+                <p>{{ user.bio if user.bio else 'No bio added yet.' }}</p>
+            </div>
+        </div>
+    </div>
