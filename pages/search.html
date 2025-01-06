@@ -76,3 +76,259 @@
         </div>
     {% endif %}
 </div>
+
+<style>
+.campaigns-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.campaigns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.campaign-card {
+    background: rgba(44, 62, 80, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.campaign-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(211, 84, 0, 0.2);
+    color: var(--deep-orange);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.campaign-info h3 {
+    color: var(--light);
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.campaign-info p {
+    color: var(--gray);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.progress-section {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+
+.progress {
+    height: 100%;
+    background: var(--deep-orange);
+    border-radius: 4px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.amount-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.raised {
+    color: var(--light);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.goal {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.percentage {
+    color: var(--deep-orange);
+    font-weight: 600;
+}
+
+.campaign-meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--deep-orange);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--light);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .campaigns-container {
+        padding: 1rem;
+    }
+
+    .campaigns-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.no-results {
+    background: rgba(44, 62, 80, 0.3);
+    border-radius: 15px;
+    padding: 4rem 2rem;
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.no-results-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(211, 84, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+}
+
+.no-results-icon i {
+    font-size: 2.5rem;
+    color: var(--deep-orange);
+}
+
+.no-results h3 {
+    color: var(--light);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.no-results p {
+    color: var(--gray);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.browse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    background: var(--deep-orange);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.browse-btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(211, 84, 0, 0.2);
+}
+
+.browse-btn i {
+    font-size: 1.2rem;
+}
+
+.search-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.search-header h2 {
+    color: var(--light);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.search-header p {
+    color: var(--gray);
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .no-results {
+        margin: 1rem;
+        padding: 3rem 1.5rem;
+    }
+
+    .no-results h3 {
+        font-size: 1.5rem;
+    }
+
+    .browse-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %} 
