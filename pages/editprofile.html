@@ -1,1 +1,27 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="edit-profile-page">
+    <!-- Back to Profile Button -->
+    <div class="back-section">
+        <a href="{{ url_for('profile') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Profile</span>
+        </a>
+    </div>
+
+    <div class="edit-container">
+        <h2>Edit Profile</h2>
+        
+        <form class="edit-form" action="{{ url_for('update_profile') }}" method="POST" enctype="multipart/form-data">
+            <!-- Profile Picture Section -->
+            <div class="profile-picture-section">
+                <div class="current-picture">J</div>
+                <div class="picture-upload">
+                    <label for="profile-upload" class="upload-btn">
+                        <i class="fas fa-camera"></i>
+                        Change Profile Picture
+                    </label>
+                    <input type="file" id="profile-upload" name="profile_picture" accept="image/*" hidden>
+                </div>
+            </div>
