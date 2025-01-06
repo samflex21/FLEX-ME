@@ -1,1 +1,290 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="campaigns-container">
+    <!-- Campaign Filters -->
+    <div class="campaign-filters">
+        <div class="filter-group">
+            <select class="filter-select" id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="medical">Medical</option>
+                <option value="education">Education</option>
+                <option value="emergency">Emergency</option>
+                <option value="business">Business</option>
+                <option value="other">Other</option>
+            </select>
+
+            <select class="filter-select" id="amountFilter">
+                <option value="all">Amount Range</option>
+                <option value="0-1000">$0 - $1,000</option>
+                <option value="1000-5000">$1,000 - $5,000</option>
+                <option value="5000-10000">$5,000 - $10,000</option>
+                <option value="10000+">$10,000+</option>
+            </select>
+
+            <select class="filter-select" id="sortFilter">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="most-funded">Most Funded</option>
+                <option value="least-funded">Least Funded</option>
+                <option value="most-urgent">Most Urgent</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Campaigns Grid -->
+    <div class="campaigns-grid">
+        {% for campaign in campaigns %}
+        <!-- Debug info -->
+        {% if debug %}
+        <div style="background: rgba(0,0,0,0.8); color: white; padding: 10px; margin: 10px 0; border-radius: 5px;">
+            Campaign ID: {{ campaign.id }}
+        </div>
+        {% endif %}
+        
+        <div class="campaign-card">
+            <div class="campaign-details">
+                <div class="campaign-header">
+                    <span class="campaign-category">{{ campaign.category|capitalize }}</span>
+                    <a href="{{ url_for('campaign_detail', campaign_id=campaign.id) }}" class="info-btn">
+                        <i class="fas fa-info-circle"></i>
+                    </a>
+                </div>
+                
+                <h3 class="campaign-title">{{ campaign.title }}</h3>
+                
+                <div class="campaign-progress-container">
+                    <div class="campaign-progress">
+                        <div class="progress-bar" style="width: {{ campaign.progress }}%"></div>
+                    </div>
+                    <div class="progress-label">{{ campaign.progress }}% funded</div>
+                </div>
+                
+                <div class="campaign-stats">
+                    <span>${{ '{:,.2f}'.format(campaign.amount_raised) }} raised</span>
+                    <span>of ${{ '{:,.2f}'.format(campaign.goal_amount) }}</span>
+                </div>
+                
+                <div class="campaign-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-user"></i>
+                        {{ campaign.name }}
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        {{ campaign.time }}
+                    </span>
+                </div>
+                
+                <a href="{{ url_for('donate', campaign_id=campaign.id|string) }}" class="contribute-btn">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    Contribute Now
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .campaign-filters {
+        margin-bottom: 2rem;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-select {
+        padding: 0.8rem 1.5rem;
+        background: rgba(44, 62, 80, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        min-width: 200px;
+    }
+
+    .filter-select:hover {
+        background: rgba(44, 62, 80, 0.5);
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--deep-orange);
+    }
+
+    .filter-select option {
+        background: var(--secondary);
+        color: var(--light);
+        padding: 10px;
+    }
+
+    .campaigns-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
+
+    .campaign-card {
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .campaign-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .campaign-details {
+        padding: 1.5rem;
+    }
+
+    .campaign-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .campaign-category {
+        background: rgba(211, 84, 0, 0.15);
+        color: var(--deep-orange);
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .info-btn {
+        color: var(--light);
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+
+    .info-btn:hover {
+        color: var(--deep-orange);
+    }
+
+    .campaign-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--light);
+    }
+
+    .campaign-progress-container {
+        margin-bottom: 1rem;
+    }
+
+    .campaign-progress {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: var(--deep-orange);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .progress-label {
+        color: var(--light);
+        font-size: 0.9rem;
+        text-align: right;
+    }
+
+    .campaign-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        color: var(--light);
+        font-size: 0.9rem;
+    }
+
+    .campaign-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--gray);
+        font-size: 0.85rem;
+    }
+
+    .contribute-btn {
+        background: var(--accent);
+        border: none;
+        padding: 0.8rem;
+        border-radius: 8px;
+        color: white;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .contribute-btn:hover {
+        background: var(--deep-orange);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .filter-group {
+            flex-direction: column;
+        }
+
+        .filter-select {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<script>
+document.getElementById('categoryFilter').addEventListener('change', updateFilters);
+document.getElementById('amountFilter').addEventListener('change', updateFilters);
+document.getElementById('sortFilter').addEventListener('change', updateFilters);
+
+function updateFilters() {
+    const category = document.getElementById('categoryFilter').value;
+    const amount = document.getElementById('amountFilter').value;
+    const sort = document.getElementById('sortFilter').value;
+    
+    let url = new URL(window.location.href);
+    url.searchParams.set('category', category);
+    url.searchParams.set('amount', amount);
+    url.searchParams.set('sort', sort);
+    
+    window.location.href = url.toString();
+}
+
+// Set initial filter values based on URL parameters
+window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const category = urlParams.get('category') || 'all';
+    const amount = urlParams.get('amount') || 'all';
+    const sort = urlParams.get('sort') || 'newest';
+    
+    document.getElementById('categoryFilter').value = category;
+    document.getElementById('amountFilter').value = amount;
+    document.getElementById('sortFilter').value = sort;
+});
+</script>
+{% endblock %} 
