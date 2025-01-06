@@ -30,3 +30,194 @@
         </button>
     </div>
 
+    <!-- Notifications List -->
+    <div class="notifications-list">
+        <!-- Notifications will be dynamically loaded here -->
+    </div>
+</div>
+
+<style>
+    .notifications-page {
+        padding: 1rem;
+    }
+
+    .back-section {
+        margin-bottom: 2rem;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--light);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 8px;
+        width: fit-content;
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        background: var(--deep-orange);
+        transform: translateX(-5px);
+    }
+
+    .notification-filters {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.5rem;
+        background: rgba(44, 62, 80, 0.3);
+        border: none;
+        border-radius: 8px;
+        color: var(--light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+        background: rgba(44, 62, 80, 0.5);
+    }
+
+    .filter-btn.active {
+        background: var(--deep-orange);
+    }
+
+    .notifications-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .notification-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .notification-item:hover {
+        background: rgba(44, 62, 80, 0.5);
+    }
+
+    .notification-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--deep-orange);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+
+    .notification-text {
+        flex: 1;
+    }
+
+    .notification-text h4 {
+        margin-bottom: 0.3rem;
+    }
+
+    .notification-text p {
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    .notification-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .delete-btn {
+        background: none;
+        border: none;
+        color: var(--danger);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .delete-btn:hover {
+        background: rgba(231, 76, 60, 0.1);
+        transform: scale(1.1);
+    }
+
+    .time-stamp {
+        color: var(--gray);
+        font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+        .notification-filters {
+            flex-direction: column;
+        }
+
+        .filter-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    /* New Toast Styling */
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(39, 174, 96, 0.9);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(8px);
+    }
+
+    .toast i {
+        font-size: 1.2rem;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+</style>
