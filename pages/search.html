@@ -24,3 +24,41 @@
                         </div>
                     </div>
 
+                    <div class="card-body">
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: {{ campaign.progress }}%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <div class="amount-info">
+                                    <span class="raised">${{ "{:,.0f}".format(campaign.amount_raised) }}</span>
+                                    <span class="goal">raised of ${{ "{:,.0f}".format(campaign.goal_amount) }}</span>
+                                </div>
+                                <span class="percentage">{{ campaign.progress }}%</span>
+                            </div>
+                        </div>
+
+                        <div class="campaign-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>{{ campaign.name }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ campaign.days_left }} days left</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="{{ url_for('campaign_detail', campaign_id=campaign.id) }}" class="btn-secondary">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </a>
+                        <a href="{{ url_for('payment', campaign_id=campaign.id) }}" class="btn-primary">
+                            <i class="fas fa-heart"></i>
+                            Support
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
