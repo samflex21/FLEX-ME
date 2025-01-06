@@ -1,1 +1,130 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="campaign-details">
+    <div class="campaign-header">
+        <div class="campaign-info">
+            <span class="campaign-category">{{ campaign.category }}</span>
+            <h1 class="campaign-title">{{ campaign.title }}</h1>
+            <div class="campaign-meta">
+                <span class="meta-item">
+                    <i class="fas fa-user"></i>
+                    Created by <a href="{{ url_for('view_user_profile', username=campaign.username) }}" class="creator-link">{{ campaign.name }}</a>
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-calendar"></i>
+                    Created on {{ campaign.start_date }}
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    {{ campaign.days_left }} days left
+                </span>
+            </div>
+            <p class="campaign-description">
+                {{ campaign.description }}
+            </p>
+        </div>
+        <div class="share-section">
+            <button class="share-btn" onclick="shareDialog()">
+                <i class="fas fa-share"></i>
+                Share
+            </button>
+        </div>
+    </div>
+
+    <div class="campaign-progress">
+        <div class="progress-stats">
+            <h3>${{ '{:,.0f}'.format(campaign.amount_raised) }} raised of ${{ '{:,.0f}'.format(campaign.goal_amount) }}</h3>
+            <span>{{ campaign.days_left }} days left</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" style="width: {{ campaign.progress }}%"></div>
+        </div>
+    </div>
+
+    <div class="donation-section">
+        <h2>Make a Donation</h2>
+        
+        <a href="{{ url_for('donate', campaign_id=campaign.id) }}" class="help-btn" id="donateButton">
+            <i class="fas fa-heart"></i>
+            Contribute Now
+        </a>
+    </div>
+</div>
+
+<!-- Share Dialog -->
+<div class="share-dialog" id="shareDialog">
+    <div class="share-dialog-content">
+        <div class="share-dialog-header">
+            <h3>Share this campaign</h3>
+            <button class="close-btn" onclick="closeShareDialog()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="share-dialog-body">
+            <div class="share-link-container">
+                <input type="text" id="shareLink" readonly value="{{ request.url }}">
+                <button class="copy-btn" onclick="copyLink()">
+                    <i class="fas fa-copy"></i>
+                    Copy
+                </button>
+            </div>
+            <div class="social-share-buttons">
+                <button onclick="shareToSocial('twitter')" class="social-share-btn twitter">
+                    <i class="fab fa-twitter"></i>
+                    Twitter
+                </button>
+                <button onclick="shareToSocial('facebook')" class="social-share-btn facebook">
+                    <i class="fab fa-facebook"></i>
+                    Facebook
+                </button>
+                <button onclick="shareToSocial('whatsapp')" class="social-share-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .campaign-details {
+        padding: 2rem;
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .campaign-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: rgba(44, 62, 80, 0.4);
+        border-radius: 12px;
+    }
+
+    .campaign-info {
+        flex: 1;
+    }
+
+    .campaign-category {
+        background: rgba(211, 84, 0, 0.15);
+        color: var(--deep-orange);
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-block;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(211, 84, 0, 0.2);
+        box-shadow: 0 0 10px rgba(211, 84, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .campaign-category:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 15px rgba(211, 84, 0, 0.2);
+    }
