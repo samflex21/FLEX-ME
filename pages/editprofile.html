@@ -2,9 +2,8 @@
 
 {% block content %}
 <div class="edit-profile-page">
-    <!-- Back to Profile Button -->
     <div class="back-section">
-        <a href="{{ url_for('profile') }}" class="back-button">
+        <a href="{{ url_for('userprofile') }}" class="back-button">
             <i class="fas fa-arrow-left"></i>
             <span>Back to Profile</span>
         </a>
@@ -16,7 +15,11 @@
         <form class="edit-form" action="{{ url_for('update_profile') }}" method="POST" enctype="multipart/form-data">
             <!-- Profile Picture Section -->
             <div class="profile-picture-section">
-                <div class="current-picture">J</div>
+                <div class="current-picture" {% if user.profile_picture %}style="background-image: url('{{ user.profile_picture }}'); background-size: cover;"{% endif %}>
+                    {% if not user.profile_picture %}
+                        {{ user.first_name[0] if user.first_name else 'U' }}
+                    {% endif %}
+                </div>
                 <div class="picture-upload">
                     <label for="profile-upload" class="upload-btn">
                         <i class="fas fa-camera"></i>
@@ -28,27 +31,32 @@
 
             <!-- Profile Information -->
             <div class="form-group">
-                <label for="display-name">Display Name</label>
-                <input type="text" id="display-name" name="display_name" value="John Doe" required>
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first_name" value="{{ user.first_name or '' }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last_name" value="{{ user.last_name or '' }}" required>
             </div>
 
             <div class="form-group">
                 <label for="username">Username</label>
                 <div class="username-input">
                     <span class="at-symbol">@</span>
-                    <input type="text" id="username" name="username" value="johndoe" required>
+                    <input type="text" id="username" name="username" value="{{ user.username or '' }}" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="bio">Bio</label>
-                <textarea id="bio" name="bio" rows="4" maxlength="160">Passionate about helping others and making a difference in the community. Together we can create positive change!</textarea>
+                <textarea id="bio" name="bio" rows="4" maxlength="160">{{ user.bio or '' }}</textarea>
                 <span class="character-count">0/160</span>
             </div>
 
             <div class="form-group">
                 <label for="location">Location</label>
-                <input type="text" id="location" name="location" value="Amsterdam, Netherlands">
+                <input type="text" id="location" name="location" value="{{ user.location or '' }}">
             </div>
 
             <!-- Contact Information -->
@@ -57,251 +65,20 @@
                 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="john.doe@example.com" required>
+                    <input type="email" id="email" name="email" value="{{ user.email or '' }}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" value="+31 6 12345678">
+                    <input type="tel" id="phone" name="phone" value="{{ user.phone or '' }}">
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="form-actions">
-                <button type="button" class="cancel-btn" onclick="window.location.href='{{ url_for('profile') }}'">Cancel</button>
+                <button type="button" class="cancel-btn" onclick="window.location.href='{{ url_for('userprofile') }}'">Cancel</button>
                 <button type="submit" class="save-btn">Save Changes</button>
             </div>
         </form>
     </div>
 </div>
-
-<style>
-    .edit-profile-page {
-        padding: 1rem;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .back-section {
-        margin-bottom: 2rem;
-    }
-
-    .back-button {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--light);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 8px;
-        width: fit-content;
-        transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-        background: var(--deep-orange);
-        transform: translateX(-5px);
-    }
-
-    .edit-container {
-        background: rgba(44, 62, 80, 0.3);
-        border-radius: 15px;
-        padding: 2rem;
-    }
-
-    .edit-container h2 {
-        margin-bottom: 2rem;
-        color: var(--light);
-    }
-
-    .profile-picture-section {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    .current-picture {
-        width: 100px;
-        height: 100px;
-        background: var(--deep-orange);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-        color: white;
-    }
-
-    .upload-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.8rem 1.5rem;
-        background: var(--deep-orange);
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .upload-btn:hover {
-        background: var(--accent);
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: var(--gray);
-    }
-
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 0.8rem;
-        background: rgba(44, 62, 80, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        color: var(--light);
-        font-size: 1rem;
-        transition: all 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: var(--deep-orange);
-        background: rgba(44, 62, 80, 0.7);
-    }
-
-    .username-input {
-        position: relative;
-    }
-
-    .at-symbol {
-        position: absolute;
-        left: 0.8rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--gray);
-    }
-
-    .username-input input {
-        padding-left: 2rem;
-    }
-
-    .character-count {
-        display: block;
-        text-align: right;
-        font-size: 0.8rem;
-        color: var(--gray);
-        margin-top: 0.3rem;
-    }
-
-    .form-section {
-        margin-top: 2rem;
-    }
-
-    .form-section h3 {
-        color: var(--light);
-        margin-bottom: 1rem;
-    }
-
-    .form-actions {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-        justify-content: flex-end;
-    }
-
-    .cancel-btn,
-    .save-btn {
-        padding: 0.8rem 2rem;
-        border-radius: 8px;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .cancel-btn {
-        background: rgba(44, 62, 80, 0.5);
-        color: var(--light);
-    }
-
-    .cancel-btn:hover {
-        background: rgba(44, 62, 80, 0.7);
-    }
-
-    .save-btn {
-        background: var(--deep-orange);
-        color: white;
-    }
-
-    .save-btn:hover {
-        background: var(--accent);
-        transform: translateY(-2px);
-    }
-
-    @media (max-width: 768px) {
-        .edit-container {
-            padding: 1rem;
-        }
-
-        .profile-picture-section {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .form-actions {
-            flex-direction: column;
-        }
-
-        .cancel-btn,
-        .save-btn {
-            width: 100%;
-        }
-    }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Bio character count
-    const bioTextarea = document.getElementById('bio');
-    const charCount = document.querySelector('.character-count');
-
-    bioTextarea.addEventListener('input', function() {
-        const remaining = this.value.length;
-        charCount.textContent = `${remaining}/160`;
-    });
-
-    // Trigger initial character count
-    bioTextarea.dispatchEvent(new Event('input'));
-
-    // Profile picture preview
-    const profileUpload = document.getElementById('profile-upload');
-    const currentPicture = document.querySelector('.current-picture');
-
-    profileUpload.addEventListener('change', function(e) {
-        if (this.files && this.files[0]) {
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                currentPicture.innerHTML = '';
-                currentPicture.style.backgroundImage = `url(${e.target.result})`;
-                currentPicture.style.backgroundSize = 'cover';
-                currentPicture.style.backgroundPosition = 'center';
-            }
-            
-            reader.readAsDataURL(this.files[0]);
-        }
-    });
-});
-</script>
-{% endblock %} 
