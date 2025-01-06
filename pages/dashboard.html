@@ -24,3 +24,537 @@
             </div>
         </div>
     </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+        <!-- Campaign Section -->
+        <div class="campaign-section">
+            <div class="section-header">
+                <h2>My Active Campaigns</h2>
+                <a href="{{ url_for('new_campaign') }}" class="help-btn">
+                    <i class="fas fa-plus"></i> New Campaign
+                </a>
+            </div>
+            <div class="campaign-cards">
+                <!-- Campaign cards will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Live Requests -->
+        <div class="live-requests">
+            <div class="section-header">
+                <h2>Live Help Requests</h2>
+                <span class="live-indicator">Live</span>
+            </div>
+            <div id="liveRequests">
+                <!-- Live requests will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        padding: 0;
+        max-width: none;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Stats Overview Styles */
+    .stats-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        padding: 2.5rem;
+    }
+
+    .stat-card {
+        background: rgba(44, 62, 80, 0.3);
+        padding: 2rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        background: rgba(44, 62, 80, 0.5);
+    }
+
+    .stat-icon {
+        width: 70px;
+        height: 70px;
+        background: var(--deep-orange);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover .stat-icon {
+        transform: none;
+    }
+
+    .stat-info h3 {
+        font-size: 2.2rem;
+        margin-bottom: 0.3rem;
+        color: var(--light);
+    }
+
+    .stat-info p {
+        color: var(--gray);
+        font-size: 1.1rem;
+    }
+
+    /* Main Grid Styles */
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 2.5rem;
+        margin-top: 2rem;
+        flex: 1;
+        padding: 2.5rem;
+    }
+
+    /* Campaign Section Styles */
+    .campaign-section {
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 15px;
+        padding: 1.5rem;
+        height: 600px;
+        overflow-y: auto;
+    }
+
+    .campaign-section::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .campaign-section::-webkit-scrollbar-track {
+        background: rgba(44, 62, 80, 0.1);
+        border-radius: 4px;
+    }
+
+    .campaign-section::-webkit-scrollbar-thumb {
+        background: var(--deep-orange);
+        border-radius: 4px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section-header h2 {
+        font-size: 1.5rem;
+        color: var(--light);
+    }
+
+    .help-btn {
+        background: var(--deep-orange);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .help-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    /* Live Requests Styles */
+    .live-requests {
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 15px;
+        padding: 1.5rem;
+        height: 600px;
+        overflow: hidden;
+    }
+
+    .live-indicator {
+        color: var(--success);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .live-indicator::before {
+        content: "●";
+        animation: pulse 2s infinite;
+    }
+
+    .request-card {
+        background: rgba(44, 62, 80, 0.3);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .request-card:hover {
+        transform: translateY(-3px);
+        background: rgba(44, 62, 80, 0.5);
+    }
+
+    .request-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        background: var(--deep-orange);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .user-details h4 {
+        color: var(--light);
+        margin-bottom: 0.2rem;
+        font-size: 1.2rem;
+    }
+
+    .user-details p {
+        color: var(--gray);
+        font-size: 1rem;
+    }
+
+    .amount-needed {
+        background: rgba(255, 53, 122, 0.2);
+        padding: 0.8rem 1.5rem;
+        border-radius: 20px;
+        color: var(--deep-orange);
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .progress {
+        width: 100%;
+        height: 8px;
+        background: rgba(236, 240, 241, 0.1);
+        border-radius: 3px;
+        margin: 1.5rem 0;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: var(--deep-orange);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+
+    .request-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .time-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.3; }
+        100% { opacity: 1; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .campaign-section,
+        .live-requests {
+            height: auto;
+            max-height: 600px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1rem;
+        }
+
+        .stats-overview {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-card {
+            padding: 1rem;
+        }
+    }
+
+    #liveRequests {
+        max-height: 500px;
+        overflow-y: hidden;
+        position: relative;
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sample live requests data
+    const liveRequests = [
+        {
+            name: "Sarah Johnson",
+            item: "iPhone 15",
+            amount: 200,
+            timeLeft: "10 minutes",
+            progress: 80,
+            avatar: "S"
+        },
+        {
+            name: "Mike Smith",
+            item: "Gaming Laptop",
+            amount: 300,
+            timeLeft: "15 minutes",
+            progress: 70,
+            avatar: "M"
+        }
+    ];
+
+    function renderLiveRequests() {
+        const container = document.getElementById('liveRequests');
+        container.innerHTML = liveRequests.map(request => `
+            <div class="request-card">
+                <div class="request-header">
+                    <div class="user-info">
+                        <div class="user-avatar">${request.avatar}</div>
+                        <div class="user-details">
+                            <h4>${request.name}</h4>
+                            <p>${request.item}</p>
+                        </div>
+                    </div>
+                    <div class="amount-needed">
+                        <span>Needs €${request.amount}</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: ${request.progress}%"></div>
+                </div>
+                <div class="request-footer">
+                    <span class="time-left">
+                        <i class="fas fa-clock"></i> ${request.timeLeft}
+                    </span>
+                    <button class="help-btn">
+                        <i class="fas fa-hand-holding-heart"></i> Help Now
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Initial render
+    renderLiveRequests();
+
+    // Update every 8 seconds
+    setInterval(renderLiveRequests, 8000);
+});
+
+function checkCampaignGoal(campaignId, currentAmount, goalAmount) {
+    if (currentAmount >= goalAmount) {
+        showGoalReachedModal(campaignId);
+    }
+}
+
+function showGoalReachedModal(campaignId) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Campaign Goal Reached! 🎉</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Congratulations! Your campaign has reached its goal.</p>
+                <p>Would you like to continue with your purchase or return to the dashboard?</p>
+                <div class="modal-buttons">
+                    <button class="continue-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Continue to Purchase
+                    </button>
+                    <button class="dashboard-btn">
+                        <i class="fas fa-home"></i>
+                        Back to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add styles for the modal
+    const style = document.createElement('style');
+    style.textContent = `
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-body p {
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .continue-btn, .dashboard-btn {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn {
+            background: var(--deep-orange);
+            color: white;
+        }
+
+        .dashboard-btn {
+            background: rgba(44, 62, 80, 0.3);
+            color: var(--light);
+        }
+
+        .continue-btn:hover, .dashboard-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+
+    // Add event listeners
+    const closeBtn = modal.querySelector('.close-btn');
+    const continueBtn = modal.querySelector('.continue-btn');
+    const dashboardBtn = modal.querySelector('.dashboard-btn');
+
+    closeBtn.onclick = () => modal.remove();
+    
+    continueBtn.onclick = () => {
+        window.location.href = `/campaigns/${campaignId}/purchase`;
+    };
+    
+    dashboardBtn.onclick = () => {
+        modal.remove();
+        // Optionally refresh dashboard
+        window.location.reload();
+    };
+
+    // Click outside to close
+    modal.onclick = (e) => {
+        if (e.target === modal) modal.remove();
+    };
+}
+
+// Example usage in your campaign update logic
+function updateCampaignProgress(campaignId, currentAmount, goalAmount) {
+    // Update progress bar logic here
+    
+    // Check if goal is reached
+    checkCampaignGoal(campaignId, currentAmount, goalAmount);
+}
+</script>
+{% endblock %} 
