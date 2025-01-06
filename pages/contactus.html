@@ -17,3 +17,28 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="contact-form-section">
+                <form class="contact-form" method="POST" action="{{ url_for('contact') }}" onsubmit="return validateForm()">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Technical Support">Technical Support</option>
+                            <option value="Billing Question">Billing Question</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
