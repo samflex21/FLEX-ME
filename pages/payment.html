@@ -36,115 +36,49 @@
     {% endif %}
 
     <!-- Payment Form -->
-    <form method="POST" action="{{ url_for('donate', campaign_id=campaign.id) }}" id="paymentForm">
+    <form id="paymentForm">
         <!-- Amount Selection -->
         <div class="amount-section">
-            <h3>Select Amount</h3>
+            <h3>Select Amount (ETH)</h3>
             <div class="amount-options">
-                <button type="button" class="amount-btn" data-amount="10">€10</button>
-                <button type="button" class="amount-btn" data-amount="25">€25</button>
-                <button type="button" class="amount-btn" data-amount="50">€50</button>
-                <button type="button" class="amount-btn" data-amount="100">€100</button>
+                <button type="button" class="amount-btn" data-amount="0.01">0.01 ETH</button>
+                <button type="button" class="amount-btn" data-amount="0.05">0.05 ETH</button>
+                <button type="button" class="amount-btn" data-amount="0.1">0.1 ETH</button>
+                <button type="button" class="amount-btn" data-amount="0.5">0.5 ETH</button>
                 <div class="custom-amount">
-                    <input type="number" name="amount" id="customAmount" placeholder="Custom Amount" min="1">
+                    <input type="number" name="amount" id="customAmount" placeholder="Custom Amount (ETH)" min="0.001" step="0.001">
                 </div>
             </div>
         </div>
 
-        <!-- Payment Methods -->
-        <div class="payment-methods">
-            <h3>Payment Method</h3>
-            <div class="payment-tabs">
-                <button type="button" class="payment-tab active" data-method="card" onclick="switchPaymentMethod(event, 'card')">
-                    <i class="fas fa-credit-card"></i>
-                    Credit Card
-                </button>
-                <button type="button" class="payment-tab" data-method="paypal" onclick="switchPaymentMethod(event, 'paypal')">
-                    <i class="fab fa-paypal"></i>
-                    PayPal
-                </button>
-                <button type="button" class="payment-tab" data-method="googlepay" onclick="switchPaymentMethod(event, 'googlepay')">
-                    <i class="fab fa-google-pay"></i>
-                    Google Pay
-                </button>
-            </div>
-
-            <!-- Add this script -->
-            <script>
-            function switchPaymentMethod(event, method) {
-                event.preventDefault();
-                
-                document.querySelectorAll('.payment-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                document.querySelectorAll('.payment-form-section').forEach(section => {
-                    section.classList.add('hidden');
-                });
-                
-                event.currentTarget.classList.add('active');
-                const formSection = document.getElementById(method + 'Form');
-                formSection.classList.remove('hidden');
-                
-                // Reinitialize Stripe Elements if switching to card payment
-                if (method === 'card' && !paymentElement) {
-                    initialize();
-                }
-            }
-
-            // Prevent form submission when clicking payment method tabs
-            document.querySelectorAll('.payment-tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    e.preventDefault();
-                });
-            });
-            </script>
-
-            <!-- Credit Card Form -->
-            <div class="payment-form-section" id="cardForm">
-                <div id="payment-element">
-                    <!-- Stripe Elements will be inserted here -->
-                </div>
-                <div id="payment-message" class="payment-message hidden"></div>
-            </div>
-
-            <!-- PayPal Section -->
-            <div class="payment-form-section hidden" id="paypalForm">
-                <div class="paypal-button">
-                    <i class="fab fa-paypal"></i>
-                    Continue with PayPal
-                </div>
-            </div>
-
-            <!-- Google Pay Section -->
-            <div class="payment-form-section hidden" id="googlepayForm">
-                <div class="googlepay-button">
-                    <i class="fab fa-google-pay"></i>
-                    Pay with Google Pay
-                </div>
-            </div>
+        <!-- MetaMask Payment Section -->
+        <div class="metamask-section">
+            <div id="metamask-status" class="status-message"></div>
+            <button type="button" id="connectWallet" class="metamask-btn">
+                <img src="/static/images/metamask-fox.svg" alt="MetaMask" class="metamask-icon">
+                Connect MetaMask
+            </button>
+            <button type="button" id="sendTransaction" class="payment-btn hidden">
+                <i class="fas fa-ethereum"></i>
+                Send Payment
+            </button>
         </div>
 
         <!-- Donation Summary -->
         <div class="donation-summary">
             <div class="summary-row">
                 <span>Donation Amount</span>
-                <span id="donationAmount">€0.00</span>
+                <span id="donationAmount">0 ETH</span>
             </div>
             <div class="summary-row">
-                <span>Processing Fee</span>
-                <span id="processingFee">€0.00</span>
+                <span>Gas Fee (estimated)</span>
+                <span id="gasFee">-- ETH</span>
             </div>
             <div class="summary-row total">
                 <span>Total</span>
-                <span id="totalAmount">€0.00</span>
+                <span id="totalAmount">0 ETH</span>
             </div>
         </div>
-
-        <!-- Complete Payment Button -->
-        <button type="submit" class="complete-payment-btn" id="completePayment">
-            <i class="fas fa-lock"></i>
-            Complete Payment
-        </button>
     </form>
 </div>
 
@@ -370,70 +304,139 @@
     .hidden {
         display: none !important;
     }
+
+    .metamask-section {
+        margin: 2rem 0;
+        text-align: center;
+    }
+
+    .metamask-btn, .payment-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    .metamask-btn {
+        background: #f6851b;
+        color: white;
+    }
+
+    .metamask-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .status-message {
+        margin: 1rem 0;
+        padding: 1rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+    }
 </style>
 
-<script src="https://js.stripe.com/v3/"></script>
-
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 <script>
-let elements;
-let paymentElement;
-
-// Initialize Stripe
-const stripe = Stripe('{{ stripe_public_key }}');
-console.log('Stripe initialized with key:', '{{ stripe_public_key }}');
-
-// Handle form display
-async function showPaymentForm() {
-    console.log('Showing payment form');
-    const cardForm = document.getElementById('cardForm');
-    cardForm.style.display = 'block';
-    cardForm.classList.remove('hidden');
-    
-    try {
-        // Create payment intent
-        const response = await fetch("/create-payment-intent", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount: 10 }) // Default amount
-        });
-        
-        const data = await response.json();
-        console.log('Payment Intent created:', data);
-        
-        if (data.error) {
-            throw new Error(data.error);
-        }
-        
-        // Create Elements instance
-        elements = stripe.elements({
-            clientSecret: data.clientSecret,
-            appearance: {
-                theme: 'night',
-                variables: {
-                    colorPrimary: '#d35400',
-                    colorBackground: 'rgba(44, 62, 80, 0.3)',
-                    colorText: '#ecf0f1'
-                }
-            }
-        });
-
-        // Create and mount the Payment Element
-        paymentElement = elements.create('payment');
-        console.log('Payment element created');
-        await paymentElement.mount('#payment-element');
-        console.log('Payment element mounted');
-        
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('payment-message').textContent = 'Error loading payment form: ' + error.message;
-        document.getElementById('payment-message').classList.remove('hidden');
-    }
-}
-
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded - Initializing payment form');
-    showPaymentForm();
+    const connectWalletBtn = document.getElementById('connectWallet');
+    const sendTransactionBtn = document.getElementById('sendTransaction');
+    const statusMessage = document.getElementById('metamask-status');
+    const donationAmountEl = document.getElementById('donationAmount');
+    let selectedAmount = 0;
+    let userAccount = null;
+
+    // Handle amount selection
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedAmount = parseFloat(btn.dataset.amount);
+            updateDonationAmount();
+        });
+    });
+
+    document.getElementById('customAmount').addEventListener('input', (e) => {
+        selectedAmount = parseFloat(e.target.value);
+        updateDonationAmount();
+    });
+
+    function updateDonationAmount() {
+        donationAmountEl.textContent = `${selectedAmount} ETH`;
+    }
+
+    // Check if MetaMask is installed
+    async function checkMetaMaskInstalled() {
+        if (typeof window.ethereum !== 'undefined') {
+            return true;
+        }
+        statusMessage.innerHTML = 'Please install MetaMask to make donations!';
+        return false;
+    }
+
+    // Connect to MetaMask
+    connectWalletBtn.addEventListener('click', async () => {
+        if (!await checkMetaMaskInstalled()) return;
+
+        try {
+            const accounts = await window.ethereum.request({ 
+                method: 'eth_requestAccounts' 
+            });
+            userAccount = accounts[0];
+            statusMessage.innerHTML = `Connected: ${userAccount.substring(0, 6)}...${userAccount.substring(38)}`;
+            connectWalletBtn.classList.add('hidden');
+            sendTransactionBtn.classList.remove('hidden');
+        } catch (error) {
+            statusMessage.innerHTML = `Error connecting: ${error.message}`;
+        }
+    });
+
+    // Send Transaction
+    sendTransactionBtn.addEventListener('click', async () => {
+        if (!selectedAmount) {
+            statusMessage.innerHTML = 'Please select an amount first';
+            return;
+        }
+
+        try {
+            const campaignAddress = '{{ campaign_wallet_address }}'; // Add this to your campaign model
+            const amountInWei = ethers.utils.parseEther(selectedAmount.toString());
+
+            const transactionParameters = {
+                to: campaignAddress,
+                from: userAccount,
+                value: amountInWei.toHexString()
+            };
+
+            const txHash = await window.ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [transactionParameters],
+            });
+
+            statusMessage.innerHTML = `Transaction sent! Hash: ${txHash}`;
+
+            // Send transaction details to backend
+            await fetch('/record_donation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    campaign_id: '{{ campaign.id }}',
+                    amount: selectedAmount,
+                    transaction_hash: txHash,
+                    donor_address: userAccount
+                })
+            });
+
+        } catch (error) {
+            statusMessage.innerHTML = `Error: ${error.message}`;
+        }
+    });
 });
 </script>
 {% endblock %} 
