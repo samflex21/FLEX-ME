@@ -1470,6 +1470,44 @@ app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_...'  # Your actual publishable key
 app.config['STRIPE_SECRET_KEY'] = 'sk_test_...'  # Your actual secret key
 stripe.api_key = app.config['STRIPE_SECRET_KEY']
 
+@app.route('/record_donation', methods=['POST'])
+@login_required
+def record_donation():
+    try:
+        data = request.json
+        
+        # Create donation record
+        donation = {
+            'campaign_id': ObjectId(data['campaign_id']),
+            'donor_id': ObjectId(session['user_id']),
+            'amount_eth': float(data['amount']),
+            'transaction_hash': data['transaction_hash'],
+            'donor_address': data['donor_address'],
+            'timestamp': datetime.now(),
+            'status': 'pending'  # Will be updated when transaction is confirmed
+        }
+        
+        # Insert donation record
+        result = db.donations.insert_one(donation)
+        
+        # Update campaign's amount raised
+        campaign_collection.update_one(
+            {'_id': ObjectId(data['campaign_id'])},
+            {'$inc': {'amount_raised_eth': float(data['amount'])}}
+        )
+        
+        return jsonify({
+            'success': True,
+            'donation_id': str(result.inserted_id)
+        })
+        
+    except Exception as e:
+        print(f"Error recording donation: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
     print("Server is running at: http://0.0.0.0:5000")  # Add this line to verify
