@@ -1,1 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifeline - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary: #EC4899;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --dark: #111827;
+            --light: #F3F4F6;
+            --gray: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .signup-container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-side {
+            padding: 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            margin-bottom: 2rem;
+        }
+
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .brand p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .form-side {
+            padding: 4rem;
+            color: var(--light);
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .step.active {
+            color: var(--primary);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid currentColor;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 1024px) {
+            .signup-container {
+                grid-template-columns: 1fr;
+            }
+
+            .info-side {
+                padding: 2rem;
+            }
+
+            .form-side {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
+
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .form-group.error label {
+            color: var(--danger);
+        }
+
+        .form-group input.invalid {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+        }
+
+        .form-step {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+        }
+
+        .form-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .modal-content h2 {
+            color: var(--light);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .modal-content .btn {
+            min-width: 150px;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="info-side">
+            <div class="brand">
+                <h1 class="website-name">Life <span>Line</span></h1>
+                <p>Join our community of people helping each other achieve their goals.</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Platform</h3>
+                    <p>Your data is protected with enterprise-grade security.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Growing Community</h3>
+                    <p>Connect with thousands of like-minded individuals.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h3>Help & Get Help</h3>
+                    <p>Support others and receive support when you need it.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-side">
+            <div class="form-header">
+                <h2>Create Your Account</h2>
+                <p>Start your journey with us today</p>
+            </div>
+
+            <div class="form-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <span>Info</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span>Security</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span>Finish</span>
+                </div>
+            </div>
+
+            <form id="signupForm">
+                <div class="form-step active" data-step="1">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="2">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="3">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" required>
+                            I agree to the Terms & Conditions
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">Previous</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">Create Account</button>
+                </div>
+            </form>
+            <div class="login-link" style="text-align: center; margin-top: 1rem;">
+                <p style="color: var(--light);">Already have an account? <a href="{{ url_for('login') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Registration Successful!</h2>
+            <p>Your account has been created successfully.</p>
+            <button class="btn btn-primary" onclick="redirectToLogin()">Login Now</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('signupForm');
+            const steps = document.querySelectorAll('.form-step');
+            const stepIndicators = document.querySelectorAll('.step');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            let currentStep = 1;
+            const totalSteps = steps.length;
+
+            function showStep(step) {
+                // Hide all steps
+                steps.forEach(s => {
+                    s.style.display = 'none';
+                    s.classList.remove('active');
+                });
+                
+                // Remove active class from all step indicators
+                stepIndicators.forEach(s => s.classList.remove('active'));
+                
+                // Show current step
+                const currentStepElement = document.querySelector(`[data-step="${step}"]`);
+                currentStepElement.style.display = 'block';
+                currentStepElement.classList.add('active');
+                
+                // Update step indicator
+                stepIndicators[step - 1].classList.add('active');
+
+                // Update buttons
+                prevBtn.style.display = step === 1 ? 'none' : 'block';
+                
+                if (step === totalSteps) {
+                    nextBtn.style.display = 'none';
+                    submitBtn.style.display = 'block';
+                } else {
+                    nextBtn.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                }
+
+                // Update progress bar if you have one
+                const progress = ((step - 1) / (totalSteps - 1)) * 100;
+                document.querySelector('.progress-fill').style.width = `${progress}%`;
+            }
+
+            function validateCurrentStep() {
+                const currentStepElement = document.querySelector(`[data-step="${currentStep}"]`);
+                const inputs = currentStepElement.querySelectorAll('input[required]');
+                let isValid = true;
+
+                inputs.forEach(input => {
+                    if (!input.value) {
+                        isValid = false;
+                        input.classList.add('invalid');
+                        input.parentElement.classList.add('error');
+                    } else {
+                        input.classList.remove('invalid');
+                        input.parentElement.classList.remove('error');
+                    }
+                });
+
+                // Special validation for password matching in step 2
+                if (currentStep === 2) {
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    
+                    if (password !== confirmPassword) {
+                        isValid = false;
+                        document.getElementById('confirmPassword').classList.add('invalid');
+                        alert('Passwords do not match!');
+                    }
+                }
+
+                return isValid;
+            }
+
+            // Next button click handler
+            nextBtn.addEventListener('click', () => {
+                if (validateCurrentStep()) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+
+            // Previous button click handler
+            prevBtn.addEventListener('click', () => {
+                currentStep--;
+                showStep(currentStep);
+            });
+
+            // Form submission handler
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (validateCurrentStep()) {
+                    const formData = {
+                        firstName: document.getElementById('firstName').value,
+                        lastName: document.getElementById('lastName').value,
+                        email: document.getElementById('email').value,
+                        username: document.getElementById('username').value,
+                        password: document.getElementById('password').value,
+                        phone: document.getElementById('phone').value
+                    };
+
+                    try {
+                        const response = await fetch('http://localhost:5000/api/signup', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            showSuccessModal();
+                        } else {
+                            alert(data.message || 'Signup failed');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    }
+                }
+            });
+
+            // Clear validation styling on input
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', () => {
+                    input.classList.remove('invalid');
+                    input.parentElement.classList.remove('error');
+                });
+            });
+
+            // Initialize first step
+            showStep(currentStep);
+        });
+
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('show');
+        }
+
+        function redirectToLogin() {
+            window.location.href = "{{ url_for('login') }}";
+        }
+    </script>
+</body>
+</html> 
