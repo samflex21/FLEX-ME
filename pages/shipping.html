@@ -1,1 +1,244 @@
 
+{% extends "base.html" %}
+
+{% block content %}
+<div class="shipping-page">
+    <div class="shipping-container">
+        <h1>Shipping Information</h1>
+        
+        <div class="shipping-grid">
+            <!-- Shipping Status -->
+            <div class="shipping-status">
+                <h2>Track Your Package</h2>
+                <div class="tracking-form">
+                    <input type="text" placeholder="Enter tracking number">
+                    <button class="track-btn">Track</button>
+                </div>
+                
+                <div class="tracking-timeline">
+                    <div class="timeline-item active">
+                        <div class="timeline-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Order Confirmed</h3>
+                            <p>Your order has been confirmed</p>
+                            <span class="time">2024-01-20 09:30</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item active">
+                        <div class="timeline-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Processing</h3>
+                            <p>Order is being processed</p>
+                            <span class="time">2024-01-20 11:45</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>In Transit</h3>
+                            <p>Package is on its way</p>
+                            <span class="time">Pending</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Delivered</h3>
+                            <p>Package has been delivered</p>
+                            <span class="time">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Info -->
+            <div class="shipping-info">
+                <div class="info-card">
+                    <h3>Shipping Address</h3>
+                    <p>John Doe<br>
+                    123 Flex Street<br>
+                    Amsterdam, 1011 AB<br>
+                    Netherlands</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Estimated Delivery</h3>
+                    <p>Expected delivery: Jan 25, 2024<br>
+                    Shipping Method: Standard Shipping</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Order Details</h3>
+                    <p>Order #: 123456789<br>
+                    Date Ordered: Jan 20, 2024<br>
+                    Total Items: 2</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .shipping-page {
+        padding: 2rem;
+    }
+
+    .shipping-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .shipping-container h1 {
+        color: var(--light);
+        margin-bottom: 2rem;
+    }
+
+    .shipping-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    .shipping-status {
+        background: rgba(44, 62, 80, 0.3);
+        padding: 2rem;
+        border-radius: 15px;
+    }
+
+    .tracking-form {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .tracking-form input {
+        flex: 1;
+        padding: 0.8rem;
+        background: rgba(44, 62, 80, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: var(--light);
+    }
+
+    .track-btn {
+        background: var(--deep-orange);
+        color: white;
+        border: none;
+        padding: 0 2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .track-btn:hover {
+        background: var(--accent);
+    }
+
+    .tracking-timeline {
+        position: relative;
+        padding-left: 2rem;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 2rem;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -2rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .timeline-icon {
+        position: absolute;
+        left: -2.5rem;
+        width: 30px;
+        height: 30px;
+        background: rgba(44, 62, 80, 0.5);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray);
+    }
+
+    .timeline-item.active .timeline-icon {
+        background: var(--deep-orange);
+        color: white;
+    }
+
+    .timeline-content {
+        background: rgba(44, 62, 80, 0.2);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-left: 1rem;
+    }
+
+    .timeline-content h3 {
+        color: var(--light);
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-content p {
+        color: var(--gray);
+        margin-bottom: 0.5rem;
+    }
+
+    .time {
+        font-size: 0.8rem;
+        color: var(--gray);
+    }
+
+    .shipping-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .info-card {
+        background: rgba(44, 62, 80, 0.3);
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .info-card h3 {
+        color: var(--deep-orange);
+        margin-bottom: 1rem;
+    }
+
+    .info-card p {
+        color: var(--gray);
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .shipping-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .shipping-page {
+            padding: 1rem;
+        }
+
+        .tracking-form {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %} 
