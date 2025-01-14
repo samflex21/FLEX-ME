@@ -1,1 +1,362 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifeline - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Quicksand", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #222; /* Default dark gray background */
+            width: 100%;
+            overflow: hidden;
+            flex-direction: column;
+            transition: background 0.3s ease, color 0.3s ease; /* Smooth transition for background and text color */
+        }
+
+        .light-theme {
+            background: #f0f0f0; /* Light gray background */
+            color: #111; /* Dark text for light theme */
+        }
+
+        .website-name {
+            font-size: 3em;
+            color: #fff; /* Default text color for dark theme */
+            text-align: center;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .light-theme .website-name {
+            color: #111; /* Dark text for light theme */
+        }
+
+        .website-name span {
+            background: linear-gradient(45deg, #ff357a, #fff172);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            position: relative;
+        }
+
+        .website-name span::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, #ff357a, #fff172);
+            bottom: -5px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle {
+            width: 50px;
+            height: 25px;
+            background: #ccc;
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle::before {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle.active {
+            background: #4caf50; /* Green when active */
+        }
+
+        .toggle.active::before {
+            transform: translateX(25px); /* Move the toggle switch */
+        }
+
+        .ring {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ring i {
+            position: absolute;
+            inset: 0;
+            border: 2px solid #fff;
+            transition: 0.5s;
+        }
+
+        .ring i:nth-child(1) {
+            border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+            animation: animate 6s linear infinite;
+        }
+
+        .ring i:nth-child(2) {
+            border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
+            animation: animate 4s linear infinite;
+        }
+
+        .ring i:nth-child(3) {
+            border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
+            animation: animate2 10s linear infinite;
+        }
+
+        .ring:hover i {
+            border: 6px solid var(--clr);
+            filter: drop-shadow(0 0 20px var(--clr));
+        }
+
+        @keyframes animate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animate2 {
+            0% {
+                transform: rotate(360deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .login {
+            position: absolute;
+            width: 300px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login h2 {
+            font-size: 2em;
+            color: #fff; /* Default text color for dark theme */
+        }
+
+        .light-theme .login h2 {
+            color: #111; /* Dark text for light theme */
+        }
+
+        .login .inputBx {
+            position: relative;
+            width: 100%;
+        }
+
+        .login .inputBx input {
+            position: relative;
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: 2px solid #fff; /* Default border color for dark theme */
+            border-radius: 40px;
+            font-size: 1.2em;
+            color: #fff; /* Default text color for dark theme */
+            box-shadow: none;
+            outline: none;
+            transition: 0.5s;
+        }
+
+        .light-theme .login .inputBx input {
+            border: 2px solid #111; /* Dark border for light theme */
+            color: #111; /* Dark text for light theme */
+            background: rgba(255, 255, 255, 0.9); /* Light background for input */
+        }
+
+        .login .inputBx input:hover,
+        .login .inputBx input:focus {
+            border-color: var(--clr, #0078ff);
+            box-shadow: 0 0 10px var(--clr, #0078ff);
+        }
+
+        .login .inputBx input[type="submit"] {
+            width: 100%;
+            background: linear-gradient(45deg, #ff357a, #fff172);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .login .inputBx input[type="submit"]:hover {
+            background: linear-gradient(45deg, #fff172, #ff357a);
+        }
+
+        .login .inputBx input::placeholder {
+            color: rgba(255, 255, 255, 0.75); /* Placeholder color for dark theme */
+        }
+
+        .light-theme .login .inputBx input::placeholder {
+            color: rgba(0, 0, 0, 0.5); /* Placeholder color for light theme */
+        }
+
+        .login .links {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .login .links a {
+            color: #fff; /* Default link color for dark theme */
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.5s;
+        }
+
+        .light-theme .login .links a {
+            color: #111; /* Dark link color for light theme */
+        }
+
+        .login .links a:hover {
+            color: var(--clr, #0078ff);
+            text-shadow: 0 0 10px var(--clr, #0078ff);
+        }
+
+        .error-message {
+            color: #ff357a;
+            text-align: center;
+            display: none;
+            font-size: 0.9em;
+            margin-top: -10px;
+            background: rgba(255, 53, 122, 0.1);
+            padding: 8px;
+            border-radius: 20px;
+            width: 100%;
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: auto; /* Push footer to the bottom */
+            padding: 1rem;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+            background: rgba(17, 17, 17, 0.95);
+        }
+
+        @media (max-width: 500px) {
+            .ring {
+                width: 300px;
+                height: 300px;
+            }
+
+            .website-name {
+                font-size: 2em;
+            }
+
+            .login {
+                width: 250px;
+            }
+
+            .login h2 {
+                font-size: 1.5em;
+            }
+
+            .login .inputBx input {
+                font-size: 1em;
+                padding: 10px 15px;
+            }
+        }   
+    </style>
+</head>
+<body>
+    <div class="toggle-container">
+        <div class="toggle" id="themeToggle"></div>
+    </div>
+
+    <h1 class="website-name">Life <span>Line</span></h1>
+
+    <div class="ring">
+        <i style="--clr:#00ff0a;"></i>
+        <i style="--clr:#ff0057;"></i>
+        <i style="--clr:#fffd44;"></i>
+        <div class="login">
+            <h2>Login</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="error-message" style="display: block;">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Flex Me. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const toggle = document.getElementById('themeToggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            toggle.classList.toggle('active');
+        });
+
+        // Clear error message when user starts typing
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+                document.querySelectorAll('.error-message').forEach(msg => {
+                    msg.style.display = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
