@@ -1,0 +1,15 @@
+	1	Flask: A lightweight WSGI web application framework.
+	2	Flask-Mail: Provides email-sending functionality within Flask applications.
+	3	pymongo: A MongoDB driver for Python, used to interact with MongoDB.
+	4	certifi: Provides Mozilla’s CA Bundle, used for SSL verification.
+	5	Flask-PyMongo: Integrates PyMongo with Flask applications.
+	6	werkzeug: A comprehensive WSGI web application library.
+	7	stripe: The official Stripe library for Python, used for payment processing.
+
+pip install Flask
+pip install flask-mail
+pip install pymongo
+pip install certifi
+pip install Flask-PyMongo
+pip install werkzeug
+pip install stripe
